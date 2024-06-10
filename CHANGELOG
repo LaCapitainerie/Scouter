@@ -1,0 +1,25 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+## [Unreleased]
+
+### Added
+- [Feature] Description of the new feature or enhancement.
+
+### Changed
+- [Feature] Description of the modified feature or enhancement.
+
+### Fixed
+- [Bug] Description of the fixed bug.
+
+### Removed
+- [Feature] Description of the removed feature or enhancement.
+
+## [Version 0.2.0] - 2024-06-10
+
+### Added
+- [Feature] Added Scopes Management including : add a scope, remove a scope, get all scopes.
+
+### Fixed
+- [Bug] Scopes formats and routes.
