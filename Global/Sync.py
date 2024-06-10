@@ -7,6 +7,17 @@ import difflib
 
 
 def Sync(session:requests.Session, force=False, file="const.json"):
+    """
+    Sync the data from the Scouter platform
+    
+    Args:
+        session (Session): The session object
+        force (bool): Force the sync
+        file (str): The file to sync with
+        
+    Returns:
+        bool: Is the sync failed
+    """
 
     try:
         with open(file, "r") as f:
@@ -22,7 +33,6 @@ def Sync(session:requests.Session, force=False, file="const.json"):
                     print("Sync successful")
                     d["content"]["Voc"] = [{i["name"]: i} for i in r.json()]
                     with open(file, 'w') as f:
-                        print(d)
                         json.dump(d, f)
                 else:
                     print("Sync failed")

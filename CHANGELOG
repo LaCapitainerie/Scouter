@@ -19,7 +19,18 @@ All notable changes to this project will be documented in this file.
 ## [Version 0.2.0] - 2024-06-10
 
 ### Added
+- [Feature] Added Option to mass import asset on a scopes
+- [Feature] Type all functions and add docstring on some
+
+### Fixed
+- [Bug] Rearrange files and functions to match with their place
+
+## [Version 0.2.0] - 2024-06-10
+
+### Added
 - [Feature] Added Scopes Management including : add a scope, remove a scope, get all scopes.
 
 ### Fixed
 - [Bug] Scopes formats and routes.
+
+

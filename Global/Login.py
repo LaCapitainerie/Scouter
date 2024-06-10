@@ -4,9 +4,18 @@ import requests
 
 
 def Login(file:str="const.json"):
+    """
+    Login to the Scouter platform
+    
+    Args:
+        file (str): The file to login with
+        
+    Returns:
+        Session: The session object
+    """
 
 
-    with open(file, "r") as f:
+    with open(file, "r+") as f:
         d = json.load(f)
         Session = requests.Session()
 

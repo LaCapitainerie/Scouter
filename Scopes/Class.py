@@ -2,6 +2,8 @@ from datetime import datetime
 from typing import Union
 from uuid import UUID
 
+from Assets.Class import Asset
+
 
 class Client(dict):
     id: UUID = "2345678-1234-1234-1234-123456789abc" # type: ignore
@@ -22,17 +24,6 @@ class Scope(dict):
     updatedAt: datetime
     client: Client
     assets: list['Asset']
-
-    def __init__(self, values: dict):
-        self.update(values)
-
-class Asset(dict):
-    name: str
-    description: str
-    scopeId: UUID
-    createdAt: datetime
-    updatedAt: datetime
-    id: UUID
 
     def __init__(self, values: dict):
         self.update(values)
