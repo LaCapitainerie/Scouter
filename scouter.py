@@ -1,7 +1,6 @@
-from re import S
-import requests
 import pandas as pd
 from Login import Login
+from Scopes import add_asset, get_scopes
 from Sync import Sync
 
 
@@ -10,35 +9,23 @@ TECHNOS_INTERNES_ENRÔLEES = "4b3228c4-b02f-43c2-85e2-b7d7db9650c9"
 
 def main():
     
-    Session = Login()
-
-    Sync(Session)
-
-
-
-    df = pd.read_csv("devices 1.csv", sep=";")
-
-    def add_asset(name: str, description: str, scope: str):
-        URL = "https://preprod.scouter.inn.hts-expert.com/api/api/asset"
-        
-        PAYLOAD = {
-            "name": name,
-            "description": description,
-            "scope": scope
-        }
-
-        response = Session.post(URL, json=PAYLOAD)
-
-        return response
+    if not(Session := Login()):
+        return
     
-    #for _index, row in df[df.Domain.isin(["cnpp.fr"])].iloc[:1].iterrows():
-    #    Device_Name = row["Device Name"]
-    #    description = ""
-    #    print(Device_Name, description, TECHNOS_INTERNES_ENRÔLEES)
-        # add_asset(name, description, scope)
+
+    if Sync(session=Session, force=False, file="const.json"):
+        return
     
-    #r = add_asset("test d'asset", "", TECHNOS_INTERNES_ENRÔLEES)
-    #print(r.text)
+
+
+    Devices = pd.read_csv("devices 1.csv", sep=";")
+    currentTechnos = pd.read_json("const.json")["Voc"]
+
+
+    scope_id = get_scopes(Session, currentTechnos, "CNPP", "TECHNOS_INTERNES_ENRÔLEES")
+
+    for _, row in Devices[Devices.Domain.isin(["cnpp.fr"])].iloc[:1].iterrows():
+        add_asset(Session, row["Device Name"], "", scope_id)
 
 
 if __name__ == '__main__':

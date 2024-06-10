@@ -17,7 +17,9 @@ def Login():
         url="https://preprod.scouter.inn.hts-expert.com/api/login",
         json=account,
     )
-
-    print(f"Login {'successful' if login.status_code == 200 else 'failed'}")
-
-    return Session
+    if login.status_code == 200:
+        print("Login successful")
+        return Session
+    else:
+        print("Login failed")
+        return None
