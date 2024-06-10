@@ -1,1 +1,268 @@
-{"cookie": {"value": "s%3AeyJtZXNzYWdlIjoia3Y5N3h1eHhqN21uZHZtODJ5aWE5dmVoIiwicHVycG9zZSI6ImFkb25pcy1zZXNzaW9uIn0.ILRhi2XzhUpd18W_weofZ9eCJVpEiRC_v26RjhdaGgc", "timestamp": 7200, "startedat": 1718006150.9836302}}
+{
+    "lastSync": 1718008631.5709429,
+    "Voc": [
+        {
+            "CNPP": {
+                "id": "a9794dba-98db-40be-9060-a45539b89b66",
+                "name": "CNPP",
+                "companyName": "CNPP",
+                "isActive": true,
+                "createdAt": "2024-06-10T07:09:13.943+02:00",
+                "updatedAt": "2024-06-10T07:09:13.944+02:00",
+                "services": [
+                    {
+                        "id": 1,
+                        "name": "news",
+                        "description": "News and alerts about cybersecurity",
+                        "isActive": true,
+                        "createdAt": "2024-06-08T03:57:51.498+02:00",
+                        "updatedAt": "2024-06-08T03:57:51.498+02:00"
+                    },
+                    {
+                        "id": 2,
+                        "name": "voc",
+                        "description": "Vulnerability Operation Center",
+                        "isActive": true,
+                        "createdAt": "2024-06-08T03:57:51.505+02:00",
+                        "updatedAt": "2024-06-08T03:57:51.505+02:00"
+                    }
+                ],
+                "technologies": [
+                    {
+                        "id": "5459675c-e08f-4b6d-b60d-0ed7e2b9026e",
+                        "description": "Apache Tomcat",
+                        "vendor": "apache",
+                        "type": "a",
+                        "product": "tomcat",
+                        "version": "9.0.79",
+                        "update": null,
+                        "edition": null,
+                        "language": null,
+                        "vulnerabilityCounter": 6,
+                        "assetId": null,
+                        "clientId": "a9794dba-98db-40be-9060-a45539b89b66",
+                        "createdAt": "2024-06-10T07:14:15.345+02:00",
+                        "updatedAt": "2024-06-10T07:14:15.599+02:00",
+                        "cpe": "cpe:2.3:a:apache:tomcat:9.0.79:*:*:*"
+                    }
+                ],
+                "scopes": [
+                    {
+                        "id": "331a08df-54b6-4c57-b630-f86774ddf8e4",
+                        "name": "OVH",
+                        "clientId": "a9794dba-98db-40be-9060-a45539b89b66",
+                        "createdAt": "2024-06-10T07:12:51.644+02:00",
+                        "updatedAt": "2024-06-10T07:12:51.644+02:00",
+                        "assets": [
+                            {
+                                "id": "072591c5-62f8-4fa1-955b-57077df206c7",
+                                "name": "yansan",
+                                "description": "Serveur LDAP",
+                                "ip": null,
+                                "hostname": null,
+                                "url": null,
+                                "scopeId": "331a08df-54b6-4c57-b630-f86774ddf8e4",
+                                "createdAt": "2024-06-10T07:18:39.714+02:00",
+                                "updatedAt": "2024-06-10T07:18:39.714+02:00",
+                                "technologies": []
+                            }
+                        ]
+                    },
+                    {
+                        "id": "aa8bdd15-eb3e-4148-876f-5869d8438c55",
+                        "name": "Cloud",
+                        "clientId": "a9794dba-98db-40be-9060-a45539b89b66",
+                        "createdAt": "2024-06-10T07:12:55.248+02:00",
+                        "updatedAt": "2024-06-10T07:12:55.248+02:00",
+                        "assets": [
+                            {
+                                "id": "5c2a09f6-f7ed-496e-9858-1f847ee4dc5d",
+                                "name": "Serveur web cnpp.com",
+                                "description": null,
+                                "ip": null,
+                                "hostname": null,
+                                "url": null,
+                                "scopeId": "aa8bdd15-eb3e-4148-876f-5869d8438c55",
+                                "createdAt": "2024-06-10T07:18:57.387+02:00",
+                                "updatedAt": "2024-06-10T07:18:57.387+02:00",
+                                "technologies": [
+                                    {
+                                        "id": "8cba8b91-2d4c-4c08-a6d6-5c014e232e94",
+                                        "description": "CMS drupal",
+                                        "vendor": "drupal",
+                                        "type": "a",
+                                        "product": "drupal",
+                                        "version": "10.0.9",
+                                        "update": null,
+                                        "edition": null,
+                                        "language": null,
+                                        "vulnerabilityCounter": 187,
+                                        "assetId": "5c2a09f6-f7ed-496e-9858-1f847ee4dc5d",
+                                        "clientId": null,
+                                        "createdAt": "2024-06-10T07:19:17.506+02:00",
+                                        "updatedAt": "2024-06-10T07:19:17.951+02:00",
+                                        "cpe": "cpe:2.3:a:drupal:drupal:10.0.9:*:*:*"
+                                    },
+                                    {
+                                        "id": "fa147db2-3edf-4035-976a-db72ed6b5b6d",
+                                        "description": "Serveur PHP",
+                                        "vendor": "php",
+                                        "type": "a",
+                                        "product": "php",
+                                        "version": "8.1.14",
+                                        "update": null,
+                                        "edition": null,
+                                        "language": null,
+                                        "vulnerabilityCounter": 8,
+                                        "assetId": "5c2a09f6-f7ed-496e-9858-1f847ee4dc5d",
+                                        "clientId": null,
+                                        "createdAt": "2024-06-10T07:20:04.587+02:00",
+                                        "updatedAt": "2024-06-10T07:20:04.993+02:00",
+                                        "cpe": "cpe:2.3:a:php:php:8.1.14:*:*:*"
+                                    },
+                                    {
+                                        "id": "75668aa2-96ea-4802-8dd3-4a029f9f9c58",
+                                        "description": "Serveur nginx",
+                                        "vendor": "f5",
+                                        "type": "a",
+                                        "product": "nginx",
+                                        "version": "1.25.3",
+                                        "update": null,
+                                        "edition": null,
+                                        "language": null,
+                                        "vulnerabilityCounter": 0,
+                                        "assetId": "5c2a09f6-f7ed-496e-9858-1f847ee4dc5d",
+                                        "clientId": null,
+                                        "createdAt": "2024-06-10T07:20:24.860+02:00",
+                                        "updatedAt": "2024-06-10T07:20:25.063+02:00",
+                                        "cpe": "cpe:2.3:a:f5:nginx:1.25.3:*:*:*"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "id": "c26e0b4b-0343-4168-97a6-0c415aa65ed9",
+                        "name": "Test",
+                        "clientId": "a9794dba-98db-40be-9060-a45539b89b66",
+                        "createdAt": "2024-06-10T07:13:01.212+02:00",
+                        "updatedAt": "2024-06-10T07:13:01.212+02:00",
+                        "assets": [
+                            {
+                                "id": "06ca628d-0621-4b4e-b793-fd63ac2bc774",
+                                "name": "actif_test",
+                                "description": "test fonctionnalit\u00e9 ajout actif",
+                                "ip": null,
+                                "hostname": null,
+                                "url": null,
+                                "scopeId": "c26e0b4b-0343-4168-97a6-0c415aa65ed9",
+                                "createdAt": "2024-06-10T07:21:17.681+02:00",
+                                "updatedAt": "2024-06-10T07:21:17.681+02:00",
+                                "technologies": []
+                            },
+                            {
+                                "id": "a0ab5e0b-9f40-4a9c-a991-22265b79ae3e",
+                                "name": "filer",
+                                "description": "Serveur de fichiers",
+                                "ip": null,
+                                "hostname": null,
+                                "url": null,
+                                "scopeId": "c26e0b4b-0343-4168-97a6-0c415aa65ed9",
+                                "createdAt": "2024-06-10T07:21:31.389+02:00",
+                                "updatedAt": "2024-06-10T07:21:31.389+02:00",
+                                "technologies": []
+                            }
+                        ]
+                    },
+                    {
+                        "id": "ba4959da-1166-4246-96dd-3ef8b3b2e4d3",
+                        "name": "Technos Client",
+                        "clientId": "a9794dba-98db-40be-9060-a45539b89b66",
+                        "createdAt": "2024-06-10T07:13:08.946+02:00",
+                        "updatedAt": "2024-06-10T07:13:08.946+02:00",
+                        "assets": [
+                            {
+                                "id": "41fbe653-af85-415d-87d8-034a15de5870",
+                                "name": "f19-042",
+                                "description": null,
+                                "ip": null,
+                                "hostname": null,
+                                "url": null,
+                                "scopeId": "ba4959da-1166-4246-96dd-3ef8b3b2e4d3",
+                                "createdAt": "2024-06-10T07:21:43.419+02:00",
+                                "updatedAt": "2024-06-10T07:21:43.419+02:00",
+                                "technologies": []
+                            },
+                            {
+                                "id": "c14e901e-2ddf-470d-bd30-2da6679fce4c",
+                                "name": "p19-4980-1",
+                                "description": null,
+                                "ip": null,
+                                "hostname": null,
+                                "url": null,
+                                "scopeId": "ba4959da-1166-4246-96dd-3ef8b3b2e4d3",
+                                "createdAt": "2024-06-10T07:21:48.344+02:00",
+                                "updatedAt": "2024-06-10T07:21:48.344+02:00",
+                                "technologies": []
+                            },
+                            {
+                                "id": "872d2b46-be88-4af7-bf6c-26b66154eb1a",
+                                "name": "p24-21577-6virt",
+                                "description": null,
+                                "ip": null,
+                                "hostname": null,
+                                "url": null,
+                                "scopeId": "ba4959da-1166-4246-96dd-3ef8b3b2e4d3",
+                                "createdAt": "2024-06-10T07:21:54.186+02:00",
+                                "updatedAt": "2024-06-10T07:21:54.186+02:00",
+                                "technologies": []
+                            },
+                            {
+                                "id": "1e27cfc5-6616-4671-8cec-9906c690805f",
+                                "name": "p24-21577-8",
+                                "description": null,
+                                "ip": null,
+                                "hostname": null,
+                                "url": null,
+                                "scopeId": "ba4959da-1166-4246-96dd-3ef8b3b2e4d3",
+                                "createdAt": "2024-06-10T07:21:59.149+02:00",
+                                "updatedAt": "2024-06-10T07:21:59.149+02:00",
+                                "technologies": []
+                            }
+                        ]
+                    },
+                    {
+                        "id": "4b3228c4-b02f-43c2-85e2-b7d7db9650c9",
+                        "name": "Technos Internes Enr\u00f4l\u00e9es",
+                        "clientId": "a9794dba-98db-40be-9060-a45539b89b66",
+                        "createdAt": "2024-06-10T09:17:20.445+02:00",
+                        "updatedAt": "2024-06-10T09:17:20.445+02:00",
+                        "assets": []
+                    }
+                ]
+            }
+        },
+        {
+            "Fraikin": {
+                "id": "4bcbec75-3728-498d-8cff-8a9b32b09b02",
+                "name": "Fraikin",
+                "companyName": "Fraikin",
+                "isActive": true,
+                "createdAt": "2024-06-10T07:09:23.331+02:00",
+                "updatedAt": "2024-06-10T07:09:23.331+02:00",
+                "services": [
+                    {
+                        "id": 2,
+                        "name": "voc",
+                        "description": "Vulnerability Operation Center",
+                        "isActive": true,
+                        "createdAt": "2024-06-08T03:57:51.505+02:00",
+                        "updatedAt": "2024-06-08T03:57:51.505+02:00"
+                    }
+                ],
+                "technologies": [],
+                "scopes": []
+            }
+        }
+    ]
+}
