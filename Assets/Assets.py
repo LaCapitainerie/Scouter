@@ -1,7 +1,9 @@
+from re import A
 from uuid import UUID
 from pandas import DataFrame
 from requests import Session
 
+from Assets.Class import Asset
 from Scopes.Class import Scope
 
 API = "https://preprod.scouter.inn.hts-expert.com/api/"
@@ -29,7 +31,7 @@ def get_assets(session:Session, scope_id:UUID):
     
 
 
-def add_asset(session:Session, name: str, description: str, scope: Scope):
+def add_asset(session:Session, name: str, description: str, scope: Scope, force=False, silent=False):
     """
     Add an asset to the Scouter platform
 
@@ -44,23 +46,24 @@ def add_asset(session:Session, name: str, description: str, scope: Scope):
     """
 
     
-    PAYLOAD = {
+    PAYLOAD:Asset = {
         "name": name,
         "description": description,
-        "scopeId": scope
-    }
+        "scopeId": scope["id"]
+    }  # type: ignore
 
-    if any(name == each["name"] for each in scope["assets"]):
-        print(f"Asset {name} already exists")
-        return True
+    if not force and PAYLOAD in scope:
+        if not silent:print(f"Asset {name} already exists")
+        return None
 
     response = session.post(API+"asset", json=PAYLOAD)
 
     if response.status_code == 200:
-        print(f"Asset {name} added with id {response.json()['id']}")
-        return response
+        if not silent:print(f"Asset {name} added with id {response.json()['id']}")
+        return response.json()
+    
     else:
-        print("Asset addition failed")
+        if not silent:print("Asset addition failed")
         return None
 
 
@@ -78,13 +81,13 @@ def add_mass_assets(session:Session, dataframe:DataFrame, scope:Scope):
         Response: The response object
     """
 
-    installedDevice = map(lambda x: x["name"], scope["assets"])
+    AlreadyAdded = 0
 
-    for i, row in dataframe[dataframe.Domain.isin(["cnpp.fr"]) & (dataframe["Device Name"] not in installedDevice)].iterrows():
-        if i == 3:break
-        if not (_ := add_asset(session, row["Device Name"], ".", scope)):
-            print(f"Asset {row['Device Name']} not added")
-            return True
+    for _, row in dataframe[dataframe.Domain.isin(["cnpp.fr"])].iterrows():
+        if not (_ := add_asset(session, row["Device Name"], ".", scope, silent=True)):
+            AlreadyAdded += 1
+
+    print(f"{len(dataframe) - AlreadyAdded} assets added, {AlreadyAdded} already existed")
 
     return False
 

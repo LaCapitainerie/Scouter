@@ -1,5 +1,5 @@
 import pandas as pd
-from Assets.Assets import add_asset, add_mass_assets
+from Assets.Assets import add_mass_assets
 from Global.Login import Login
 from Scopes.Class import Scope
 from Scopes.Scopes import get_scope
