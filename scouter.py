@@ -1,9 +1,11 @@
 import pandas as pd
 from Assets.Assets import add_mass_assets
 from Global.Login import Login
+# from Perimeters.Perimeters import 
+from Perimeters.Perimeters import delete_perimeter
 from Pipeline.Pipeline import Pipeline
 from Scopes.Class import Scope
-from Scopes.Scopes import get_scope
+from Scopes.Scopes import get_scope, delete_scope
 from Global.Sync import Sync
 
 
@@ -29,17 +31,20 @@ def main():
     if not(Session := Login()):
         return
     
+    delete_perimeter(Session, "CNPP", "test")
+    
+    
 
-    if not Sync(session=Session, force=True, file="const.json"):
-        return
+    #if not Sync(session=Session, force=True, file="const.json"):
+    #    return
 
 
-    if not(scope := get_scope(Session, "CNPP", "Technos Internes Enrôlées")):
-        return
+    #if not(scope := get_scope(Session, "CNPP", "Technos Internes Enrôlées")):
+    #    return
 
 
-    if add_mass_assets(Session, Devices[Devices.Domain.isin(["cnpp.fr"])], scope):
-        return
+    #if add_mass_assets(Session, Devices[Devices.Domain.isin(["cnpp.fr"])], scope):
+    #    return
 
 
 
