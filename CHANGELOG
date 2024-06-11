@@ -2,21 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+<!--## [Unreleased]
 
 ### Added
 - [Feature] Description of the new feature or enhancement.
+- [Feature] Pipeline to easily deploy ton of Assets and Technos Associates
 
 ### Changed
-- [Feature] Description of the modified feature or enhancement.
+- [Feature] Add CNPP Banner
+- [Feature] Add Unit Tests
+- [Feature] Add Documentation on every part
 
 ### Fixed
 - [Bug] Description of the fixed bug.
 
-### Removed
-- [Feature] Description of the removed feature or enhancement.
+ ### Removed
+- [Feature] Description of the removed feature or enhancement. -->
 
-## [Version 0.2.0] - 2024-06-10
+## [Version 0.3.1] - 2024-06-11
+
+### Added
+- [Feature] Added Unit test to avoid doublon when adding an Asset
+
+### Fixed
+- [Bug] Tweaks some classes to match actual usage
+
+## [Version 0.2.1] - 2024-06-10
 
 ### Added
 - [Feature] Added Option to mass import asset on a scopes
@@ -25,7 +36,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - [Bug] Rearrange files and functions to match with their place
 
-## [Version 0.2.0] - 2024-06-10
+## [Version 0.1.1] - 2024-06-10
 
 ### Added
 - [Feature] Added Scopes Management including : add a scope, remove a scope, get all scopes.
