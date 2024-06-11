@@ -41,11 +41,11 @@ def Login(file:str="const.json") -> Union[requests.Session, None]:
                 d["account"]["lastSync"] = time.time()
                 with open(file, 'w') as f:
                     json.dump(d, f)
-                print("Login successful")
+                print("Login \033[1msuccessful\033[0m")
                 return Session
             
             else:
-                print("Login failed")
+                print("Login \033[1mfailed\033[0m")
                 return None
             
         else:

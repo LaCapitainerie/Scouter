@@ -52,17 +52,17 @@ def add_asset(session:Session, name: str, description: str, scope: Scope, force=
     }  # type: ignore
 
     if not force and PAYLOAD in scope:
-        if not silent:print(f"Asset {name} already exists")
+        if not silent:print(f"Asset \033[1m{name}\033[0m already exists")
         return None
 
     response = session.post(API+"asset", json=PAYLOAD)
 
     if response.status_code == 200:
-        if not silent:print(f"Asset {name} added with id {response.json()['id']}")
+        if not silent:print(f"Asset \033[1m{name}\033[0m added with id \033[1m{response.json()['id']}\033[0m")
         return response.json()
     
     else:
-        if not silent:print("Asset addition failed")
+        if not silent:print("Asset addition \033[1mfailed\033[0m")
         return None
 
 
@@ -86,7 +86,7 @@ def add_mass_assets(session:Session, ams_df:DataFrame, scope:Scope):
         if not (_ := add_asset(session, row["Device Name"], ".", scope, silent=True)):
             AlreadyAdded += 1
 
-    print(f"{len(ams_df) - AlreadyAdded} assets added, {AlreadyAdded} already existed")
+    print(f"\033[1m{len(ams_df) - AlreadyAdded}\033[0m assets added, \033[1m{AlreadyAdded}\033[0m already existed")
 
     return False
 

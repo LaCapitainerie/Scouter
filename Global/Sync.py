@@ -30,16 +30,16 @@ def Sync(session:requests.Session, file:str, force=False):
                 r = session.get("https://preprod.scouter.inn.hts-expert.com/api/client/service/voc")
 
                 if r.status_code == 200:
-                    print("Sync successful")
+                    print("Sync \033[1msuccessful\033[0m")
                     d["content"]["Voc"] = [{i["name"]: i} for i in r.json()]
                     with open(file, 'w') as f:
                         json.dump(d, f)
                 else:
-                    print("Sync failed")
+                    print("Sync \033[1mfailed\033[0m")
                     return False
 
             else:
-                print("Syncing not needed")
+                print("Syncing \033[1mnot needed\033[0m")
 
             return True
 

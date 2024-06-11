@@ -22,7 +22,7 @@ class Pipeline(list[Callable]):
 
         for function in self.pipe[1:]:
             self.kwargs.update({"session": self.session})
-            print(f"Running {function.__name__}")
+            print(f"Running \033[1m{function.__name__}\033[0m")
             
 
             retour = function(**{k: v for k, v in self.kwargs.items() if k in function.__annotations__})
@@ -30,6 +30,7 @@ class Pipeline(list[Callable]):
                 return None
             
             if function.__code__.co_name.startswith("get_"):
+                print(f"Got \033[1m{function.__code__.co_name[4:]}\033[0m")
                 self.kwargs.update({function.__code__.co_name[4:]: retour})
 
         return None
