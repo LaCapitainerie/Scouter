@@ -3,15 +3,49 @@ from typing import Union
 from requests import Session
 from Scopes.Class import Perimetre, Scope
 
+def add_scope(session:Session, perimeter:Perimetre, scopeName:str) -> Union[Scope, None]:
+    """
+    Add a scope to the Scouter platform
+    
+    Args:
+        session (Session): The session object
+        perimeter (Perimetre): The perimeter object
+        scopeName (str): The scope name
+        
+    Returns:
+        Scope: The scope object
+    """
+    try:
 
-def get_scope(session:Session, perimetre:str, scopeName:str) -> Union[Scope, None]:
+        r = session.post(f"https://preprod.scouter.inn.hts-expert.com/api/asset", json={
+            "name": scopeName,
+            "description": ".",
+            "scopeId": perimeter["id"]
+        })
+
+        if r.status_code != 200:
+            print("\033[1mFailed\033[0m to add the scope")
+            return None
+
+        scope = Scope(r.json())
+
+        print(f"Scope \033[1m{scope['name']}\033[0m added")
+
+        return scope
+    
+    except StopIteration:
+        print(f"Perimeter \033[1m{perimeter['name']} not found")
+        return None
+
+
+def get_scope(session:Session, perimeter:Perimetre, scopeName:str) -> Union[Scope, None]:
     """
     Get the asset from the Scouter platform
     
     Args:
         session (Session): The session object
         dataframe (Series): The dataframe object
-        perimetre (str): The perimetre
+        perimeter (str): The perimeter
         scopeName (str): The asset name
         
     Returns:
@@ -27,11 +61,7 @@ def get_scope(session:Session, perimetre:str, scopeName:str) -> Union[Scope, Non
         
         df:list[Perimetre] = r.json()
 
-        scope = next(each for each in df if perimetre in each["name"])
-        
-        scopesList:list[Scope] = scope["scopes"]
-
-        assets:Scope = Scope(next(filter(lambda x: scopeName == x["name"], scopesList)))
+        assets:Scope = Scope(next(filter(lambda x: scopeName == x["name"], perimeter["scopes"])))
 
         print("Scope found :\033[1m", assets["name"], "\033[0m")
 
@@ -63,9 +93,9 @@ def delete_scope(session:Session, scopeName:str) -> bool:
         
         df:list[Perimetre] = r.json()
 
-        perimetre_found = next(each for each in df if scopeName in each["name"])
+        perimeter_found = next(each for each in df if scopeName in each["name"])
         
-        r = session.delete(f"https://preprod.scouter.inn.hts-expert.com/scope/{perimetre_found['id']}")
+        r = session.delete(f"https://preprod.scouter.inn.hts-expert.com/scope/{perimeter_found['id']}")
         
         if r.status_code == 200:
             print("Perimeter \033[1mdeleted")
