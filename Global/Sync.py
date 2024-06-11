@@ -6,7 +6,7 @@ import difflib
 
 
 
-def Sync(session:requests.Session, force=False, file="const.json"):
+def Sync(session:requests.Session, file:str, force=False):
     """
     Sync the data from the Scouter platform
     
@@ -36,14 +36,14 @@ def Sync(session:requests.Session, force=False, file="const.json"):
                         json.dump(d, f)
                 else:
                     print("Sync failed")
-                    return True
+                    return False
 
             else:
                 print("Syncing not needed")
 
-            return False
+            return True
 
     except FileNotFoundError:
         filenames = next(walk("."), (None, None, []))[2] 
-        print(f"File not found. Did you mean to write \033[1m{difflib.get_close_matches(file, filenames)[0]}\033[0m ?")
-        return True
+        print(f"File \033[1m{file}\033[0m not found. Did you mean to write \033[1m{difflib.get_close_matches(file, filenames)[0]}\033[0m ?")
+        return False

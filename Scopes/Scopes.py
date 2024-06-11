@@ -1,8 +1,10 @@
 from typing import Union
-from Scopes.Class import Asset, Scope
+
+from requests import Session
+from Scopes.Class import Perimetre, Scope
 
 
-def get_scope(dataframe:list[dict[str, Scope]], perimetre:str, scopeName:str) -> Union[Scope, None]:
+def get_scope(session:Session, perimetre:str, scopeName:str) -> Union[Scope, None]:
     """
     Get the asset from the Scouter platform
     
@@ -16,11 +18,22 @@ def get_scope(dataframe:list[dict[str, Scope]], perimetre:str, scopeName:str) ->
         Asset: The asset object
     """
     try:
-        scope = tuple(next(each for each in dataframe if perimetre in each.keys()).values())[0]
+
+        r = session.get("https://preprod.scouter.inn.hts-expert.com/api/client/service/voc")
+
+        if r.status_code != 200:
+            print("Failed to get the scopes")
+            return None
+        
+        df:list[Perimetre] = r.json()
+
+        scope = next(each for each in df if perimetre in each["name"])
         
         scopesList:list[Scope] = scope["scopes"]
 
         assets:Scope = Scope(next(filter(lambda x: scopeName == x["name"], scopesList)))
+
+        print("Scope found : ", assets["name"])
 
         return assets
     

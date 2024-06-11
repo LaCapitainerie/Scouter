@@ -1,9 +1,10 @@
 import json
 import time
+from typing import Union
 import requests
 
 
-def Login(file:str="const.json"):
+def Login(file:str="const.json") -> Union[requests.Session, None]:
     """
     Login to the Scouter platform
     

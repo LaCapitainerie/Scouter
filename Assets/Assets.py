@@ -1,4 +1,3 @@
-from re import A
 from uuid import UUID
 from pandas import DataFrame
 from requests import Session
@@ -68,13 +67,13 @@ def add_asset(session:Session, name: str, description: str, scope: Scope, force=
 
 
 
-def add_mass_assets(session:Session, dataframe:DataFrame, scope:Scope):
+def add_mass_assets(session:Session, ams_df:DataFrame, scope:Scope):
     """
     Add multiple assets to the Scouter platform
 
     Args:
         session (Session): The session object
-        dataframe (DataFrame): The list of assets
+        ams_df (DataFrame): The list of assets
         scope (str): The scope of the asset
 
     Returns:
@@ -83,11 +82,11 @@ def add_mass_assets(session:Session, dataframe:DataFrame, scope:Scope):
 
     AlreadyAdded = 0
 
-    for _, row in dataframe[dataframe.Domain.isin(["cnpp.fr"])].iterrows():
+    for _, row in ams_df[ams_df.Domain.isin(["cnpp.fr"])].iterrows():
         if not (_ := add_asset(session, row["Device Name"], ".", scope, silent=True)):
             AlreadyAdded += 1
 
-    print(f"{len(dataframe) - AlreadyAdded} assets added, {AlreadyAdded} already existed")
+    print(f"{len(ams_df) - AlreadyAdded} assets added, {AlreadyAdded} already existed")
 
     return False
 

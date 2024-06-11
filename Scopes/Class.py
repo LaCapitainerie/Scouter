@@ -1,11 +1,11 @@
 from datetime import datetime
-from typing import NamedTuple, Union
+from typing import NamedTuple
 from uuid import UUID
 
 from Assets.Class import Asset
 
 
-class Client(dict):
+class Perimetre(dict):
     id: UUID = "2345678-1234-1234-1234-123456789abc" # type: ignore
     name: str = ""
     companyName: str = ""
@@ -34,7 +34,7 @@ class Scope(dict):
     clientId: UUID
     createdAt: datetime
     updatedAt: datetime
-    client: Client
+    client: Perimetre
     #__assets: set[TupleAsset]
     __assets: set[tuple[str, str]]
 
