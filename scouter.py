@@ -47,8 +47,7 @@ def main():
         
 
         #ams_df=Devices[Devices.Domain.isin(["cnpp.fr"])],
-    ).run(
-    )
+    ).run()
 
     """
     if not(Session := Login()):

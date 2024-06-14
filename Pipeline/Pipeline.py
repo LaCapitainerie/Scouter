@@ -33,4 +33,7 @@ class Pipeline(list[Callable]):
                 print(f"Got \033[1m{function.__code__.co_name[4:]}\033[0m")
                 self.kwargs.update({function.__code__.co_name[4:]: retour})
 
+            if function.__code__.co_name.startswith("add_"):
+                print(f"Added \033[1m{function.__code__.co_name[4:]}\033[0m")
+
         return None

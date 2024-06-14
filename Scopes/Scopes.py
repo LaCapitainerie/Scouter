@@ -3,7 +3,7 @@ from typing import Union
 from requests import Session
 from Scopes.Class import Perimetre, Scope
 
-def add_scope(session:Session, perimeter:Perimetre, scopeName:str) -> Union[Scope, None]:
+def add_scope(session:Session, perimeter:Perimetre, scopeName:str) -> bool:
     """
     Add a scope to the Scouter platform
     
@@ -25,17 +25,17 @@ def add_scope(session:Session, perimeter:Perimetre, scopeName:str) -> Union[Scop
 
         if r.status_code != 200:
             print("\033[1mFailed\033[0m to add the scope")
-            return None
+            return False
 
         scope = Scope(r.json())
 
         print(f"Scope \033[1m{scope['name']}\033[0m added")
 
-        return scope
+        return True
     
     except StopIteration:
         print(f"Perimeter \033[1m{perimeter['name']} not found")
-        return None
+        return False
 
 
 def get_scope(session:Session, perimeter:Perimetre, scopeName:str) -> Union[Scope, None]:

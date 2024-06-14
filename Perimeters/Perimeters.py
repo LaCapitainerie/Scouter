@@ -6,7 +6,7 @@ from requests import Session
 from Global.Class import Client
 from Perimeters.Class import Perimetre
 
-def add_perimeter(session:Session, client:str, perimeter_name:str) -> Union[Perimetre, None]:
+def add_perimeter(session:Session, client:str, perimeter_name:str) -> bool:
     """
     Add a perimeter to the Scouter platform
     
@@ -22,7 +22,7 @@ def add_perimeter(session:Session, client:str, perimeter_name:str) -> Union[Peri
 
     if r.status_code != 200:
         print("\033[1mFailed\033[0m to get the perimeters")
-        return None
+        return False
 
     Clients:list[Client] = r.json()
 
@@ -35,13 +35,13 @@ def add_perimeter(session:Session, client:str, perimeter_name:str) -> Union[Peri
 
     if r.status_code != 200:
         print("\033[1mFailed\033[0m to add the perimeter")
-        return None
+        return False
 
     perimeter = Perimetre(r.json())
 
     print(f"Perimeter \033[1m{perimeter['name']}\033[0m added")
 
-    return perimeter
+    return True
 
 def get_perimeter(session:Session, client:str, perimeter_name:str) -> Union[Perimetre, None]:
     """
@@ -67,7 +67,6 @@ def get_perimeter(session:Session, client:str, perimeter_name:str) -> Union[Peri
     perimeters = next(Perimetre(each) for each in client_found["scopes"] if perimeter_name == each["name"])
 
     return perimeters
-
 
 def delete_perimeter(session:Session, perimeter:Perimetre) -> bool:
     """
