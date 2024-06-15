@@ -2,11 +2,8 @@ import pandas as pd
 from requests import get
 from Assets.Assets import add_asset, add_mass_assets
 from Global.Login import Login
-# from Perimeters.Perimeters import 
 from Perimeters.Perimeters import add_perimeter, delete_perimeter, get_perimeter
 from Pipeline.Pipeline import Pipeline
-from Scopes.Class import Scope
-from Scopes.Scopes import add_scope, get_scope, delete_scope
 from Global.Sync import get_data
 
 
@@ -15,12 +12,14 @@ def main():
 
     # Devices = pd.read_csv("devices 1.csv", sep=";")
 
+    TIE = "Technos Internes Enrôlées"
 
     Pipeline(
         Login,
         get_data,
-        (add_perimeter, {"client": "CNPP", "name": "test"}),
-        (delete_perimeter, {"client": "CNPP", "name": "testz"}),
+        #(get_state, {"client": "CNPP", "perimeter": "Technos Internes Enrôlées", "name": "test"}),
+        #(add_perimeter, {"client": "CNPP", "name": "test"}),
+        #(delete_perimeter, {"client": "CNPP", "name": "test"}),
         #get_perimeter,
         #add_scope,
 
@@ -29,6 +28,8 @@ def main():
 
         #ams_df=Devices[Devices.Domain.isin(["cnpp.fr"])],
     ).run()
+
+    
 
     """
     if not(Session := Login()):

@@ -2,7 +2,6 @@ from datetime import datetime
 from uuid import UUID
 
 from Perimeters.Class import Perimetre
-from Scopes.Class import Scope
 
 class Client(dict):
     id: UUID = "2345678-1234-1234-1234-123456789abc" # type: ignore
@@ -13,7 +12,7 @@ class Client(dict):
     updatedAt: datetime = datetime.now()
     services: list[Perimetre] = []
     technologies: list = []
-    scopes: list[Scope] = []
+    scopes: list[Perimetre] = []
 
     def __init__(self, values: dict):
         self.update(values)

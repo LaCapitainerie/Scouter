@@ -4,7 +4,7 @@ from pandas import DataFrame
 from requests import Session
 
 from Assets.Class import Asset
-from Scopes.Class import Scope
+from Perimeters.Class import Perimetre
 
 API = "https://preprod.scouter.inn.hts-expert.com/api/"
 
@@ -31,7 +31,7 @@ def get_assets(session:Session, scope_id:UUID) -> Union[Asset, None]:
     
 
 
-def add_asset(session:Session, name: str, description: str, scope: Scope, force=False, silent=False) -> bool:
+def add_asset(session:Session, name: str, description: str, scope: Perimetre, force=False, silent=False) -> bool:
     """
     Add an asset to the Scouter platform
 
@@ -68,7 +68,7 @@ def add_asset(session:Session, name: str, description: str, scope: Scope, force=
 
 
 
-def add_mass_assets(session:Session, ams_df:DataFrame, scope:Scope) -> bool:
+def add_mass_assets(session:Session, ams_df:DataFrame, scope:Perimetre) -> bool:
     """
     Add multiple assets to the Scouter platform
 

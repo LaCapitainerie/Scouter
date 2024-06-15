@@ -1,4 +1,5 @@
 from collections import deque
+from os import name
 from typing import Any, Callable, Container, Type, TypeVar, Union
 from requests import Session
 
@@ -68,29 +69,32 @@ class Pipeline(list[Callable]):
             self.log.append({Run.INFO: f"Running {function.__name__}"})
 
             retour = function(**{k: v for k, v in self.kwargs.items() if k in function.__annotations__})
+
+
+            name = f"'\033[1m{self.kwargs.get('name')}\033[0m'"
+            func_name = function.__code__.co_name
             
             
-            if function.__code__.co_name.startswith("get_"):
-                print(f"Got \033[1m{function.__code__.co_name[4:]}\033[0m")
-                self.kwargs.update({function.__code__.co_name[4:]: retour})
+            if func_name.startswith("get_"):
+                print(f"Got \033[1m{func_name[4:]}\033[0m")
+                self.kwargs.update({func_name[4:]: retour})
 
-                
-
-            if function.__code__.co_name.startswith("add_"):
+            
+            if func_name.startswith("add_"):
 
                 if not retour:
-                    self.log.append({Run.STAY: f"'\033[1m{self.kwargs.get('name')}\033[0m' {function.__code__.co_name[4:]} already exists"})
+                    self.log.append({Run.STAY: f"{name} {func_name[4:]} already exists"})
 
                 else:
-                    self.log.append({Run.ADDED: f"Added {function.__code__.co_name[4:]}"})
+                    self.log.append({Run.ADDED: f"Added {func_name[4:]}"})
 
             
-            if function.__code__.co_name.startswith("delete_"):
+            if func_name.startswith("delete_"):
 
                 if not retour:
-                    self.log.append({Run.WARNING: f"Failed to remove '\033[1m{self.kwargs.get('name')}\033[0m' {function.__code__.co_name[7:]}"})
+                    self.log.append({Run.WARNING: f"Failed to remove {name} {func_name[7:]}"})
                 else:
-                    self.log.append({Run.REMOVED: f"Removed {function.__code__.co_name[7:]}"})
+                    self.log.append({Run.REMOVED: f"Removed {func_name[7:]} {name}"})
 
         self.log_output()
 

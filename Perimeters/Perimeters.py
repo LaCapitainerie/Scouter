@@ -6,7 +6,7 @@ from requests import Session
 from Global.Class import Client, Data
 from Perimeters.Class import Perimetre
 
-PERIMETER_API = "https://preprod.scouter.inn.hts-expert.com/fr/voc/client/"
+PERIMETER_API = "https://preprod.scouter.inn.hts-expert.com/api/scope"
 
 def add_perimeter(session:Session, client:str, name:str, data:Data) -> bool:
     """
@@ -28,8 +28,8 @@ def add_perimeter(session:Session, client:str, name:str, data:Data) -> bool:
     if not (client_found := data.get(client)):
         print(f"\033[1mFailed\033[0m to fetch client called \033[1m{client}\033[0m when adding the perimeter {name}")
         return False
-
-    r = session.post(f"https://preprod.scouter.inn.hts-expert.com/api/scope", json={
+    
+    r = session.post(PERIMETER_API, json={
         "name": name,
         "clientId": client_found["id"]
     })
@@ -83,7 +83,7 @@ def delete_perimeter(session:Session, client: str, name:str, data:Data) -> bool:
         print(f"Perimeter \033[1m{name}\033[0m not found")
         return False
 
-    r = session.delete(f"https://preprod.scouter.inn.hts-expert.com/api/scope/{perimeter['id']}")
+    r = session.delete(f"{PERIMETER_API}/{perimeter['id']}")
 
     if r.status_code != 200:
         print("\033[1mFailed\033[0m to delete the perimeter")
