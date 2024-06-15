@@ -17,3 +17,9 @@ class Client(dict):
 
     def __init__(self, values: dict):
         self.update(values)
+
+class ClientNotFound(Exception):
+    pass
+
+class Data(dict):
+    ...

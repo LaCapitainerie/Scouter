@@ -7,44 +7,25 @@ from Perimeters.Perimeters import add_perimeter, delete_perimeter, get_perimeter
 from Pipeline.Pipeline import Pipeline
 from Scopes.Class import Scope
 from Scopes.Scopes import add_scope, get_scope, delete_scope
-from Global.Sync import Sync
+from Global.Sync import get_data
 
 
 def main():
 
 
-    Devices = pd.read_csv("devices 1.csv", sep=";")
+    # Devices = pd.read_csv("devices 1.csv", sep=";")
 
-
-    #Pipeline(
-    #    Login,
-    #    Sync,
-    #    get_scope,
-    #    add_mass_assets,
-    #    
-    #    file="const.json", 
-    #    perimetre="CNPP", 
-    #    scopeName="Technos Internes Enrôlées",
-    #    ams_df=Devices[Devices.Domain.isin(["cnpp.fr"])],
-    #).run()
 
     Pipeline(
         Login,
-        Sync,
-        add_perimeter,
-        get_perimeter,
-        add_scope,
+        get_data,
+        (add_perimeter, {"client": "CNPP", "name": "test"}),
+        (delete_perimeter, {"client": "CNPP", "name": "testz"}),
+        #get_perimeter,
+        #add_scope,
 
 
         file="const.json",
-        perimeter_name="test",
-        client="CNPP",
-
-        scopeName="asset test",
-        
-        name="asset test",
-        description="",
-        
 
         #ams_df=Devices[Devices.Domain.isin(["cnpp.fr"])],
     ).run()

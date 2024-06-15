@@ -19,6 +19,22 @@ All notable changes to this project will be documented in this file.
  ### Removed
 - [Feature] Description of the removed feature or enhancement. -->
 
+## [Version 0.7.0] - 2024-06-17
+
+### Added
+- [Feature] Log output to see changes
+- [Feature] Verification before adding occure localy
+
+## [Version 0.6.0] - 2024-06-17
+
+### Added
+- [Feature] Global Class to store the schem of the dataframe
+
+### Changed
+- [Feature] Changed the way to look in the data, now look localy
+- [Feature] Changed it for perimeters
+
+
 ## [Version 0.5.1] - 2024-06-17
 
 ### Changed
