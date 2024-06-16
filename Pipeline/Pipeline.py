@@ -37,8 +37,7 @@ class Pipeline(list[Callable]):
             raise ValueError("The pipeline is empty")
         
         if get_data not in self.pipe:
-            print("Warning: Sync function not found in the pipeline")
-            print("You run the risk of not having the necessary data to run the pipeline")
+            self.log.append({Run.WARNING: "Warning: Sync function not found in the pipeline"})
 
         if self.pipe[0].__annotations__.get("return", None) != Union[Session, None]:
             raise TypeError("The first function must return a Session object")
@@ -70,10 +69,9 @@ class Pipeline(list[Callable]):
 
             if not self.kwargs.get("nolog"):print(f"Running \033[1m{function.__name__}\033[0m")
             
-            self.log.append({Run.INFO: f"Running {function.__name__}"})
+            # self.log.append({Run.INFO: f"Running {function.__name__}"})
 
-            retour = function(**{k: v for k, v in self.kwargs.items() if k in function.__annotations__})
-
+            Rcode, retour = function(**{k: v for k, v in self.kwargs.items() if k in function.__annotations__})
 
             name = f"'\033[1m{self.kwargs.get('name')}\033[0m'"
             func_name = function.__code__.co_name
@@ -93,11 +91,16 @@ class Pipeline(list[Callable]):
                     self.log.append({Run.ADDED: f"Added {retour[0]} over {retour[1]} {func_name[9:]} in {fromW} {Sup}"})
 
                 else:
-                    if not retour:
+                    self.kwargs.update({func_name[4:]: retour})
+
+                    if Rcode == 0:
                         self.log.append({Run.STAY: f"{name} {func_name[4:]} already exists in {fromW} {Sup}"})
 
-                    else:
+                    elif Rcode == 1:
                         self.log.append({Run.ADDED: f"Added {name} {func_name[4:]} in {fromW} {Sup}"})
+
+                    else:
+                        self.log.append({Run.REMOVED: f"Error when adding {name} {func_name[4:]} in {fromW} {Sup}"})
 
             
             if func_name.startswith("delete_"):
@@ -112,7 +115,7 @@ class Pipeline(list[Callable]):
         return None
     
     def fromW(self, string:str):
-        if string == "actif":
+        if string == "asset":
             return "perimeter"
         elif string == "perimeter":
             return "client"

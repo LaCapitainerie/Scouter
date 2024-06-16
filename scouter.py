@@ -1,6 +1,6 @@
 import pandas as pd
 from requests import get
-from Actifs.Actifs import add_actif, add_mass_actifs, get_actif
+from Assets.Assets import add_asset, add_mass_assets, get_asset
 from Global.Login import Login
 from Perimeters.Perimeters import add_perimeter, delete_perimeter, get_perimeter
 from Pipeline.Pipeline import Mode, Pipeline
@@ -15,20 +15,12 @@ def main():
     TIE = "Technos Internes Enrôlées"
 
     Pipeline(
-        Mode.PLAN,
-        False,
+        Mode.EXECUTE,
+        True,
         Login,
         get_data,
         (add_perimeter, {"client": "CNPP", "name": "Test"}),
-        (get_perimeter, {"client": "CNPP", "name": TIE}),
-        #(get_actif, {"name": "cnppcnp-l4rp41g"}),
-        (add_actif, {"name": "test2", "description": "test"}),
-        #(add_mass_actifs, {"client": "CNPP", "perimeter": TIE}),
-        #(get_state, {"client": "CNPP", "perimeter": "Technos Internes Enrôlées", "name": "test"}),
-        #(add_perimeter, {"client": "CNPP", "name": "test"}),
-        #(delete_perimeter, {"client": "CNPP", "name": "test"}),
-        #get_perimeter,
-        #add_scope,
+        (add_asset, {"name": "test2", "description": "test"}),
 
 
         file="const.json",

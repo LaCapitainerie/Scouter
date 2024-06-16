@@ -9,7 +9,7 @@ from Global.Class import Data
 
 
 
-def get_data(session:requests.Session, file:str, force=True, nolog:bool=False) -> Union[Data, None]:
+def get_data(session:requests.Session, file:str, force=True, nolog:bool=False) -> tuple[int, Union[Data, None]]:
     """
     Sync the data from the Scouter platform
     
@@ -39,14 +39,14 @@ def get_data(session:requests.Session, file:str, force=True, nolog:bool=False) -
                         json.dump(d, f)
                 else:
                     if not nolog:print("Sync \033[1mfailed\033[0m")
-                    return None
+                    return 2, None
 
             else:
                 if not nolog:print("Syncing \033[1mnot needed\033[0m")
 
-            return d["content"]["Voc"]
+            return 1, d["content"]["Voc"]
 
     except FileNotFoundError:
         filenames = next(walk("."), (None, None, []))[2] 
         print(f"File \033[1m{file}\033[0m not found. Did you mean to write \033[1m{difflib.get_close_matches(file, filenames)[0]}\033[0m ?")
-        return None
+        return 2, None
