@@ -1,12 +1,15 @@
 from collections import deque
-from os import name
-from typing import Any, Callable, Container, Type, TypeVar, Union
+from typing import Any, Callable, Container, Literal, Union
 from requests import Session
 
 from Global.Login import Login
 from Global.Sync import get_data
 
 PipelineFunctions = Union[Callable, tuple[Callable, dict[str, Any]]]
+
+class Mode:
+    PLAN = "Plan"
+    EXECUTE = "Execute"
 
 class Run:
     REMOVED = "red"
@@ -21,10 +24,11 @@ class Pipeline(list[Callable]):
     pipe: list[PipelineFunctions]
     kwargs: dict
 
-    def __init__(self, *args: PipelineFunctions, **kwargs):
+    def __init__(self, mode="Plan", nolog:bool=False, *args: PipelineFunctions, **kwargs):
         self.pipe = list(args)
         self.session = None
         self.kwargs = kwargs
+        self.kwargs.update({"mode": mode, "nolog": nolog})
         self.log:deque[dict[str, str]] = deque([{Run.INFO: "Pipeline started"}])
 
     def run(self):
@@ -40,7 +44,7 @@ class Pipeline(list[Callable]):
             raise TypeError("The first function must return a Session object")
 
         if isinstance(self.pipe[0], Callable) and self.pipe[0] == Login:
-            self.session = self.pipe[0]()
+            self.session = self.pipe[0](nolog=self.kwargs.get("nolog"))
         
         if not self.session:
             return None
@@ -64,7 +68,7 @@ class Pipeline(list[Callable]):
 
                 
 
-            print(f"Running \033[1m{function.__name__}\033[0m")
+            if not self.kwargs.get("nolog"):print(f"Running \033[1m{function.__name__}\033[0m")
             
             self.log.append({Run.INFO: f"Running {function.__name__}"})
 
@@ -73,34 +77,49 @@ class Pipeline(list[Callable]):
 
             name = f"'\033[1m{self.kwargs.get('name')}\033[0m'"
             func_name = function.__code__.co_name
-            
+
+            fromW = self.fromW(func_name[4:])
+            tmp = self.kwargs.get(fromW)
+            Sup = f"'\033[1m{tmp if isinstance(tmp, str) else tmp['name'] if issubclass(type(tmp), dict) else ''}\033[0m'" # type: ignore
             
             if func_name.startswith("get_"):
-                print(f"Got \033[1m{func_name[4:]}\033[0m")
+                if not self.kwargs.get("nolog"):print(f"Got \033[1m{func_name[4:]}\033[0m")
                 self.kwargs.update({func_name[4:]: retour})
 
             
             if func_name.startswith("add_"):
 
-                if not retour:
-                    self.log.append({Run.STAY: f"{name} {func_name[4:]} already exists"})
+                if func_name.startswith("add_mass_"):
+                    self.log.append({Run.ADDED: f"Added {retour[0]} over {retour[1]} {func_name[9:]} in {fromW} {Sup}"})
 
                 else:
-                    self.log.append({Run.ADDED: f"Added {func_name[4:]}"})
+                    if not retour:
+                        self.log.append({Run.STAY: f"{name} {func_name[4:]} already exists in {fromW} {Sup}"})
+
+                    else:
+                        self.log.append({Run.ADDED: f"Added {name} {func_name[4:]} in {fromW} {Sup}"})
 
             
             if func_name.startswith("delete_"):
 
                 if not retour:
-                    self.log.append({Run.WARNING: f"Failed to remove {name} {func_name[7:]}"})
+                    self.log.append({Run.WARNING: f"Failed to remove {name} {func_name[7:]} from {fromW} {Sup}"})
                 else:
-                    self.log.append({Run.REMOVED: f"Removed {func_name[7:]} {name}"})
+                    self.log.append({Run.REMOVED: f"Removed {func_name[7:]} {name} from {fromW} {Sup}"})
 
-        self.log_output()
+        self.log_output(self.kwargs.get("mode")) # type: ignore
 
         return None
     
-    def log_output(self):
+    def fromW(self, string:str):
+        if string == "actif":
+            return "perimeter"
+        elif string == "perimeter":
+            return "client"
+        return "None"
+        
+    
+    def log_output(self, mode:Mode):
         def icon_from_log(str):
             if str == Run.REMOVED:
                 return "- [\033[31mx\033[0m]"
@@ -120,3 +139,8 @@ class Pipeline(list[Callable]):
         for i in self.log:
             key, val = i.popitem()
             print(f"{icon_from_log(key)} {val}")
+
+        print("\n\n")
+
+        print(f"\033[32mPipeline finished in mode {mode}")
+        print("No changes were made\033[37m") if mode == Mode.PLAN else print("Pipeline finished successfully\033[37m")

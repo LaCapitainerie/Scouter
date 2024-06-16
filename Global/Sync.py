@@ -9,7 +9,7 @@ from Global.Class import Data
 
 
 
-def get_data(session:requests.Session, file:str, force=True) -> Union[Data, None]:
+def get_data(session:requests.Session, file:str, force=True, nolog:bool=False) -> Union[Data, None]:
     """
     Sync the data from the Scouter platform
     
@@ -27,22 +27,22 @@ def get_data(session:requests.Session, file:str, force=True) -> Union[Data, None
             d = json.load(f)
 
             if force or d["content"]["lastSync"] < time.time() - 3600:
-                print("Syncing...")
+                if not nolog:print("Syncing...")
                 d["content"]["lastSync"] = time.time()
 
                 r = session.get("https://preprod.scouter.inn.hts-expert.com/api/client/service/voc")
 
                 if r.status_code == 200:
-                    print("Sync \033[1msuccessful\033[0m")
+                    if not nolog:print("Sync \033[1msuccessful\033[0m")
                     d["content"]["Voc"] = {i["name"]: i for i in r.json()}
                     with open(file, 'w') as f:
                         json.dump(d, f)
                 else:
-                    print("Sync \033[1mfailed\033[0m")
+                    if not nolog:print("Sync \033[1mfailed\033[0m")
                     return None
 
             else:
-                print("Syncing \033[1mnot needed\033[0m")
+                if not nolog:print("Syncing \033[1mnot needed\033[0m")
 
             return d["content"]["Voc"]
 

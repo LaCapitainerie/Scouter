@@ -4,7 +4,7 @@ from typing import Union
 import requests
 
 
-def Login(file:str="const.json") -> Union[requests.Session, None]:
+def Login(file:str="const.json", nolog:bool=False) -> Union[requests.Session, None]:
     """
     Login to the Scouter platform
     
@@ -22,7 +22,7 @@ def Login(file:str="const.json") -> Union[requests.Session, None]:
 
         if d["account"]["lastSync"] < time.time() - 3600:
 
-            print("Logging in...")
+            if not nolog:print("Logging in...")
 
             account = {
                 "email": "admin@me.com",
@@ -41,16 +41,16 @@ def Login(file:str="const.json") -> Union[requests.Session, None]:
                 d["account"]["lastSync"] = time.time()
                 with open(file, 'w+') as f:
                     json.dump(d, f)
-                print("Login \033[1msuccessful\033[0m")
+                if not nolog:print("Login \033[1msuccessful\033[0m")
                 return Session
             
             else:
-                print("Login \033[1mfailed\033[0m")
+                if not nolog:print("Login \033[1mfailed\033[0m")
                 return None
             
         else:
 
-            print("Login not needed")
+            if not nolog:print("Login not needed")
 
             Session.headers.update({
                 "Content-Type": "application/json",

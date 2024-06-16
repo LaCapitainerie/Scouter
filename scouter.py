@@ -1,9 +1,9 @@
 import pandas as pd
 from requests import get
-from Assets.Assets import add_asset, add_mass_assets
+from Actifs.Actifs import add_actif, add_mass_actifs, get_actif
 from Global.Login import Login
 from Perimeters.Perimeters import add_perimeter, delete_perimeter, get_perimeter
-from Pipeline.Pipeline import Pipeline
+from Pipeline.Pipeline import Mode, Pipeline
 from Global.Sync import get_data
 
 
@@ -15,8 +15,15 @@ def main():
     TIE = "Technos Internes Enrôlées"
 
     Pipeline(
+        Mode.PLAN,
+        False,
         Login,
         get_data,
+        (add_perimeter, {"client": "CNPP", "name": "Test"}),
+        (get_perimeter, {"client": "CNPP", "name": TIE}),
+        #(get_actif, {"name": "cnppcnp-l4rp41g"}),
+        (add_actif, {"name": "test2", "description": "test"}),
+        #(add_mass_actifs, {"client": "CNPP", "perimeter": TIE}),
         #(get_state, {"client": "CNPP", "perimeter": "Technos Internes Enrôlées", "name": "test"}),
         #(add_perimeter, {"client": "CNPP", "name": "test"}),
         #(delete_perimeter, {"client": "CNPP", "name": "test"}),
@@ -25,8 +32,8 @@ def main():
 
 
         file="const.json",
-
         #ams_df=Devices[Devices.Domain.isin(["cnpp.fr"])],
+        #ams_df[ams_df.Domain.isin(["cnpp.fr"])].iterrows()
     ).run()
 
     
@@ -54,12 +61,6 @@ def main():
 
     #if add_mass_assets(Session, Devices[Devices.Domain.isin(["cnpp.fr"])], scope):
     #    return
-
-
-
-
-    print("Done")
-
 
 if __name__ == '__main__':
     main()

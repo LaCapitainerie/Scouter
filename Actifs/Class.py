@@ -2,7 +2,7 @@ from datetime import datetime
 from uuid import UUID
 
 
-class Asset(dict):
+class Actif(dict):
     name: str
     description: str
     scopeId: UUID

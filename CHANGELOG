@@ -19,6 +19,15 @@ All notable changes to this project will be documented in this file.
  ### Removed
 - [Feature] Description of the removed feature or enhancement. -->
 
+## [Version 0.8.0] - 2024-06-17
+
+### Added
+- [Feature] New Modes to run the pipe : PLAN, PLAN, EXECUTE
+- [Feature] Nolog mod to only display final changes
+
+### Changed
+- [Feature] Changed Typos to a standard typo, allowing better usage
+
 ## [Version 0.7.1] - 2024-06-17
 
 ### Removed
