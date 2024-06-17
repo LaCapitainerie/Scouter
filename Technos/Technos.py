@@ -8,6 +8,16 @@ from Technos.Class import Techno
 TECHNOS_API = "https://preprod.scouter.inn.hts-expert.com/api/technology"
 
 def get_techno(asset: Asset, name:str) -> tuple[int, Union[Techno, None]]:
+    """
+    Get a techno from an asset
+    
+    Args:
+        asset (Asset): The asset object
+        name (str): The techno name
+        
+    Returns:
+        tuple[int, Union[Techno, None]]: The response code and the techno object
+    """
 
     for techno in asset['technologies']:
         if techno["product"] == name:
@@ -16,6 +26,22 @@ def get_techno(asset: Asset, name:str) -> tuple[int, Union[Techno, None]]:
     return 2, None
 
 def add_techno(session:Session, asset: Asset, name:str, description:str, vendor:str, version:str, mode:Mode, nolog:bool) -> tuple[int, Union[Techno, None]]:
+    """
+    Add a techno to the Scouter platform
+    
+    Args:
+        session (Session): The session object
+        asset (Asset): The asset object
+        name (str): The techno name
+        description (str): The techno description
+        vendor (str): The techno vendor
+        version (str): The techno version
+        mode (Mode): The mode
+        nolog (bool): The nolog flag
+        
+    Returns:
+        tuple[int, Union[Techno, None]]: The response code and the techno object
+    """
 
     if (techno := get_techno(asset, name)[1]):
         if not nolog:print(f"Techno \033[1m{name}\033[0m already exists")
@@ -68,7 +94,20 @@ def add_mass_technos(session:Session, asset: Asset, technos: list[dict], mode:Mo
     return 1, (added, total)
 
 def delete_techno(session:Session, asset: Asset, name:str, mode:Mode, nolog:bool) -> tuple[int, Union[Techno, None]]:
+    """
+    Delete a techno from the Scouter platform
     
+    Args:
+        session (Session): The session object
+        asset (Asset): The asset object
+        name (str): The techno name
+        mode (Mode): The mode
+        nolog (bool): The nolog flag
+        
+    Returns:
+        tuple[int, Union[Techno, None]]: The response code and the techno object
+    """
+
     if not (techno := get_techno(asset, name)[1]):
         if not nolog:print(f"Techno \033[1m{name}\033[0m not found")
         return 2, None
