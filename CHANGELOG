@@ -19,6 +19,11 @@ All notable changes to this project will be documented in this file.
  ### Removed
 - [Feature] Description of the removed feature or enhancement. -->
 
+## [Version 0.9.1] - 2024-06-17
+
+### Added
+- [Feature] Mass add for technos, allowing to pass a list beside a struct
+
 ## [Version 0.9.0] - 2024-06-17
 
 ### Added

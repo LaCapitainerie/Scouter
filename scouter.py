@@ -11,8 +11,6 @@ def main():
 
     # Devices = pd.read_csv("devices 1.csv", sep=";")
 
-    TIE = "Technos Internes Enrôlées"
-
     Pipeline(
         Mode.EXECUTE,
         True,
