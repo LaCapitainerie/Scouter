@@ -44,6 +44,29 @@ def add_techno(session:Session, asset: Asset, name:str, description:str, vendor:
     if not nolog:print(f"Techno \033[1m{name}\033[0m could not be added to asset \033[1m{asset['name']}\033[0m")
     return 2, techno
 
+def add_mass_technos(session:Session, asset: Asset, technos: list[dict], mode:Mode, nolog:bool) -> tuple[int, tuple[int, int]]:
+    """
+    Add a list of technos to the Scouter platform
+
+    Args:
+        session (Session): The session object
+        asset (Asset): The asset object
+        technos (list[dict]): The list of technos to add
+
+    Returns:
+        tuple[int, tuple[int, int]]: The response code and the number of added technos
+    """
+
+    added = 0
+    total = len(technos)
+
+    for techno in technos:
+        r = add_techno(session, asset, **techno, mode=mode, nolog=nolog)
+        if r[0] == 1:
+            added += 1
+
+    return 1, (added, total)
+
 def delete_techno(session:Session, asset: Asset, name:str, mode:Mode, nolog:bool) -> tuple[int, Union[Techno, None]]:
     
     if not (techno := get_techno(asset, name)[1]):
