@@ -31,7 +31,11 @@ Create your feature branch (git checkout -b feature/AmazingFeature)
 **Push to the branch :**
 (git push origin feature/AmazingFeature)
 
+<img width="1239" alt="image" src="https://github.com/LaCapitainerie/Scouter/assets/66835496/6f2a780f-18cc-4860-9d55-5bb806851149">
+
 **Fill The Pull Request Card**
+
+<img width="356" alt="image" src="https://github.com/LaCapitainerie/Scouter/assets/66835496/ebed97f3-a9cb-49f4-985e-ff1730894815">
 
 **And Open a Pull Request**
 
