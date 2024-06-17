@@ -18,14 +18,12 @@ def get_asset(perimeter:Perimeter, name:str) -> tuple[int, Union[Asset, None]]:
     Returns:
         Response: The response object
     """
-    print(perimeter.keys(), perimeter.get("assets"))
+    
     for asset in perimeter.get("assets", []):
         if asset["name"] == name:
             return 1, Asset(asset)
         
     return 2, None
-    
-
 
 def add_asset(session:Session, perimeter: Perimeter, name: str, description: str, mode:Mode, nolog:bool) -> tuple[int, Union[Asset, None]]:
     """
@@ -67,9 +65,7 @@ def add_asset(session:Session, perimeter: Perimeter, name: str, description: str
         if not nolog:print("Asset addition \033[1mfailed\033[0m")
         return 2, None
 
-
-
-def add_mass_assets(session:Session, scope:Perimeter, ams_df:Sequence, mode:Mode, nolog:bool) -> tuple[int, int]:
+def add_mass_assets(session:Session, scope:Perimeter, ams_df:Sequence, mode:Mode, nolog:bool) -> tuple[int, tuple[int, int]]:
     """
     Add multiple assets to the Scouter platform
 
@@ -90,11 +86,9 @@ def add_mass_assets(session:Session, scope:Perimeter, ams_df:Sequence, mode:Mode
 
     if not nolog:print(f"\033[1m{len(ams_df) - AlreadyAdded}\033[0m assets added, \033[1m{AlreadyAdded}\033[0m already existed")
 
-    return AlreadyAdded, len(ams_df)
+    return 1, (AlreadyAdded, len(ams_df))
 
-
-
-def delete_asset(session:Session, perimeter:Perimeter, name:str, mode:Mode, nolog:bool) -> bool:
+def delete_asset(session:Session, perimeter:Perimeter, name:str, mode:Mode, nolog:bool) -> tuple[int, Union[Asset, None]]:
     """
     Delete an asset from the Scouter platform
 
@@ -108,17 +102,17 @@ def delete_asset(session:Session, perimeter:Perimeter, name:str, mode:Mode, nolo
 
     if not (asset := get_asset(perimeter, name)[1]):
         if not nolog:print(f"Asset {name} not found")
-        return False
+        return 2, None
     
     if mode == Mode.PLAN:
         if not nolog:print(f"Asset {asset['id']} would have been deleted")
-        return True
+        return 1, asset
 
     response = session.delete(f"{API}asset/{asset['id']}")
 
     if response.status_code == 200:
         if not nolog:print(f"Asset {asset['id']} deleted")
-        return True
+        return 1, asset
     else:
         if not nolog:print("Asset deletion failed")
-        return False
+        return 2, None

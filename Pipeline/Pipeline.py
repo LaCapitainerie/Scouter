@@ -76,7 +76,7 @@ class Pipeline(list[Callable]):
             name = f"'\033[1m{self.kwargs.get('name')}\033[0m'"
             func_name = function.__code__.co_name
 
-            fromW = self.fromW(func_name[4:])
+            fromW = self.fromW(func_name.split("_", maxsplit=1)[1])
             tmp = self.kwargs.get(fromW)
             Sup = f"'\033[1m{tmp if isinstance(tmp, str) else tmp['name'] if issubclass(type(tmp), dict) else ''}\033[0m'" # type: ignore
             
@@ -115,11 +115,13 @@ class Pipeline(list[Callable]):
         return None
     
     def fromW(self, string:str):
-        if string == "asset":
+        if string == "techno":
+            return "asset"
+        elif string == "asset":
             return "perimeter"
         elif string == "perimeter":
             return "client"
-        return "None"
+        return f"None ({string})"
         
     
     def log_output(self, mode:Mode):

@@ -71,7 +71,7 @@ def get_perimeter(client:str, name:str, data:Data, nolog:bool) -> tuple[int, Uni
 
     return 2, None
 
-def delete_perimeter(session:Session, client: str, name:str, data:Data, mode:Mode, nolog:bool) -> bool:
+def delete_perimeter(session:Session, client: str, name:str, data:Data, mode:Mode, nolog:bool) -> tuple[int, Union[Perimeter, None]]:
     """
     Delete the perimeter from the Scouter platform
     
@@ -86,18 +86,18 @@ def delete_perimeter(session:Session, client: str, name:str, data:Data, mode:Mod
     # Get the perimeter to see if exist
     if not (perimeter := get_perimeter(client, name, data, nolog)[1]):
         if not nolog:print(f"Perimeter \033[1m{name}\033[0m not found")
-        return False
+        return 2, None
     
     if mode == Mode.PLAN:
         if not nolog:print(f"Perimeter \033[1m{name}\033[0m would have been deleted")
-        return True
+        return 1, perimeter
 
     r = session.delete(f"{PERIMETER_API}/{perimeter['id']}")
 
     if r.status_code != 200:
         if not nolog:print("\033[1mFailed\033[0m to delete the perimeter")
-        return False
+        return 2, None
     
     if not nolog:print(f"Perimeter \033[1m{perimeter['name']}\033[0m deleted")
 
-    return True
+    return 1, perimeter
