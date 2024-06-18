@@ -91,6 +91,8 @@ class Pipeline(list[Callable]):
             if func_name.startswith("add_"):
 
                 if func_name.startswith("add_mass_"):
+                    # self.kwargs.update({func_name[9:]: retour})
+
                     self.log.append({Run.ADDED: f"Added {retour[0]} over {retour[1]} {func_name[9:]} in {fromW} {Sup}"})
 
                 else:
@@ -186,7 +188,7 @@ class Pipeline(list[Callable]):
     def fromW(self, string:str):
         if string == "techno":
             return "asset"
-        elif string == "asset":
+        elif string == "asset" or string == "mass_assets":
             return "perimeter"
         elif string == "perimeter":
             return "client"

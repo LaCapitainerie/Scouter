@@ -1,4 +1,4 @@
-from typing import Sequence, Union
+from typing import Any, Sequence, Union
 from requests import Session
 
 from Assets.Class import Asset
@@ -65,7 +65,8 @@ def add_asset(session:Session, perimeter: Perimeter, name: str, description: str
         if not nolog:print("Asset addition \033[1mfailed\033[0m")
         return 2, None
 
-def add_mass_assets(session:Session, scope:Perimeter, ams_df:Sequence, mode:Mode, nolog:bool) -> tuple[int, tuple[int, int]]:
+
+def add_mass_assets(session:Session, perimeter:Perimeter, ams_df:Sequence[Any], mode:Mode, nolog:bool) -> tuple[int, tuple[int, int]]:
     """
     Add multiple assets to the Scouter platform
 
@@ -80,8 +81,8 @@ def add_mass_assets(session:Session, scope:Perimeter, ams_df:Sequence, mode:Mode
 
     AlreadyAdded = 0
 
-    for _, row in ams_df:
-        if not add_asset(session, scope, row["Device Name"], ".", nolog=True, mode=mode)[1]:
+    for row in ams_df:
+        if add_asset(session, perimeter, row, ".", nolog=True, mode=mode)[1]:
             AlreadyAdded += 1
 
     if not nolog:print(f"\033[1m{len(ams_df) - AlreadyAdded}\033[0m assets added, \033[1m{AlreadyAdded}\033[0m already existed")

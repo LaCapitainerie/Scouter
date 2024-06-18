@@ -11,10 +11,12 @@ from Global.Sync import get_data
 
 def main():
 
-    # Devices = pd.read_csv("devices 1.csv", sep=";")
+    Devices = pd.read_csv("devices 1.csv", sep=";")
+
+    Loop = Devices[Devices.Domain.isin(["cnpp.fr"])]["Device Name"].iloc[:5].values
 
     Pipeline(
-        Mode.PLAN,
+        Mode.EXECUTE,
         True,
         Login,
         get_data,
@@ -22,6 +24,7 @@ def main():
         (get_client, {"name": "CNPP"}),
 
         (add_perimeter, {"client": "CNPP", "name": "Test Perimetre"}),
+        (add_mass_assets, {"ams_df": Loop}),
 
         file="const.json",
         #ams_df=Devices[Devices.Domain.isin(["cnpp.fr"])],
