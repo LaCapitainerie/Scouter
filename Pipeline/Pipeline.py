@@ -1,4 +1,5 @@
 from collections import deque
+import enum
 from typing import Any, Callable, Container, Union
 from requests import Session
 
@@ -113,6 +114,7 @@ class Pipeline(list[Callable]):
                                 for scope in d[self.kwargs.get("client")]["scopes"]:
                                     if scope["name"] == Name:
                                         scope["assets"].append(retour)
+                                        break
 
                             elif func_name[4:] == "techno":
                                 perim = self.kwargs.get("perimeter") or {}
@@ -122,6 +124,8 @@ class Pipeline(list[Callable]):
                                         for asset in scope["assets"]:
                                             if asset["name"] == asset.get("name"):
                                                 asset["technologies"].append(retour)
+                                                break
+                                        break
 
 
                             self.kwargs.update({"data": self.kwargs.get("data")})
@@ -136,6 +140,44 @@ class Pipeline(list[Callable]):
                     self.log.append({Run.WARNING: f"Failed to remove {name} {func_name[7:]} from {fromW} {Sup}"})
                 else:
                     self.log.append({Run.REMOVED: f"Removed {func_name[7:]} {name} from {fromW} {Sup}"})
+
+                    if d := self.kwargs.get("data"):
+                        
+                        if func_name[7:] == "perimeter":
+                            tmp = d[self.kwargs.get("client")]["scopes"][:]
+                            for scope in tmp:
+                                if scope["name"] == retour.get("name"):
+                                    d[Name]["scopes"].remove(scope)
+                            del tmp
+
+                        elif func_name[7:] == "asset":
+                            tmp = d[self.kwargs.get("client")]["scopes"][:]
+                            perim = self.kwargs.get("perimeter") or {}
+                            for spos, scope in enumerate(tmp):
+                                if scope["name"] == perim.get("name"):
+                                    asset_ = self.kwargs.get("asset") or {}
+                                    for pos, asset in enumerate(scope["assets"]):
+                                        if asset["name"] == asset_.get("name"):
+                                            del d[self.kwargs.get("client")]["scopes"][spos]["assets"][pos]
+                                            break
+                                    break
+
+                        elif func_name[7:] == "techno":
+                            tmp = d[self.kwargs.get("client")]["scopes"][:]
+                            perim = self.kwargs.get("perimeter") or {}
+                            for spos, scope in enumerate(tmp):
+                                if scope["name"] == perim.get("name"):
+                                    asset_ = self.kwargs.get("asset") or {}
+                                    for pos, asset in enumerate(scope["assets"]):
+                                        if asset["name"] == asset_.get("name"):
+                                            for tpos, techno in enumerate(asset["technologies"]):
+                                                if techno.get("name") == retour.get("name"):
+                                                    del d[self.kwargs.get("client")]["scopes"][spos]["assets"][pos]["technologies"][tpos]
+                                                    break
+                                            break
+                                    break
+
+                            # d[self.kwargs.get("client")]["scopes"][spos]["assets"][pos]["technologies"].remove(techno)
 
         self.log_output(self.kwargs.get("mode")) # type: ignore
 
