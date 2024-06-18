@@ -3,6 +3,7 @@
 from typing import Union
 from requests import Session
 
+from Assets.Assets import delete_asset
 from Global.Class import Data
 from Perimeters.Class import Perimeter
 from Pipeline.Pipeline import Mode
@@ -71,7 +72,7 @@ def get_perimeter(client:str, name:str, data:Data, nolog:bool) -> tuple[int, Uni
 
     return 2, None
 
-def delete_perimeter(session:Session, client: str, name:str, data:Data, mode:Mode, nolog:bool) -> tuple[int, Union[Perimeter, None]]:
+def delete_perimeter(session:Session, client: str, name:str, data:Data, mode:Mode, nolog:bool, force:bool=False) -> tuple[int, Union[Perimeter, None]]:
     """
     Delete the perimeter from the Scouter platform
     
@@ -88,9 +89,19 @@ def delete_perimeter(session:Session, client: str, name:str, data:Data, mode:Mod
         if not nolog:print(f"Perimeter \033[1m{name}\033[0m not found")
         return 2, None
     
-    if perimeter.assets:
+    if not force and perimeter["assets"]:
         if not nolog:print(f"Perimeter \033[1m{name}\033[0m still has assets")
         return 2, None
+    
+    elif force:
+        if not nolog:print(f"Perimeter \033[1m{name}\033[0m will be deleted with assets")
+        for asset in perimeter["assets"]:
+            rcode, _ = delete_asset(session, perimeter, asset["name"], mode, nolog)
+
+            if rcode != 1:
+                if not nolog:print(f"Failed to delete asset \033[1m{asset['name']}\033[0m with code {rcode}")
+
+                return 2, None
     
     if mode == Mode.PLAN:
         if not nolog:print(f"Perimeter \033[1m{name}\033[0m would have been deleted")

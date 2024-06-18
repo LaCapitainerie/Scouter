@@ -6,7 +6,7 @@ from Global.Class import Data
 
 CLIENT_API = "https://preprod.scouter.inn.hts-expert.com/api/client/service/voc"
 
-def get_client(name:str, data:Data) -> tuple[int, Union[Client, None]]:
+def get_client(name:str, data:Data) -> tuple[int, Union[str, None]]:
     """
     Get the client from the Scouter platform
 
@@ -17,8 +17,8 @@ def get_client(name:str, data:Data) -> tuple[int, Union[Client, None]]:
         Response: The response object
     """
     
-    for key, client in data.items():
+    for key in data.keys():
         if key == name:
-            return 1, Client(client)
+            return 1, key
     
     return 2, None

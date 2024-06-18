@@ -1,4 +1,5 @@
-from typing import Any, Sequence, Union
+from collections import deque
+from typing import Any, Iterable, Sequence, Union
 from requests import Session
 
 from Assets.Class import Asset
@@ -66,7 +67,7 @@ def add_asset(session:Session, perimeter: Perimeter, name: str, description: str
         return 2, None
 
 
-def add_mass_assets(session:Session, perimeter:Perimeter, ams_df:Sequence[Any], mode:Mode, nolog:bool) -> tuple[int, tuple[int, int]]:
+def add_mass_assets(session:Session, perimeter:Perimeter, ams_df:Sequence[Any], mode:Mode, nolog:bool) -> tuple[int, tuple[int, Iterable[Asset], int]]:
     """
     Add multiple assets to the Scouter platform
 
@@ -79,15 +80,25 @@ def add_mass_assets(session:Session, perimeter:Perimeter, ams_df:Sequence[Any], 
         Response: The response object
     """
 
-    AlreadyAdded = 0
+    Already = 0
+    Added = deque()
+    Error = 0
 
     for row in ams_df:
-        if add_asset(session, perimeter, row, ".", nolog=True, mode=mode)[1]:
-            AlreadyAdded += 1
+        Rcode, asset = add_asset(session, perimeter, row, ".", nolog=True, mode=mode)
+        if Rcode == 0:
+            Already += 1
+            if not nolog:print(f"Asset {row} already exists")
+        elif Rcode == 1:
+            Added.append(asset)
+            if not nolog:print(f"Asset {row} added")
+        elif Rcode == 2:
+            Error += 1
+            if not nolog:print(f"Asset {row} addition failed")
 
-    if not nolog:print(f"\033[1m{len(ams_df) - AlreadyAdded}\033[0m assets added, \033[1m{AlreadyAdded}\033[0m already existed")
+    if not nolog:print(f"\033[1m{Added}\033[0m assets added, \033[1m{Already}\033[0m already existed, \033[1m{Error}\033[0m errors")
 
-    return 1, (AlreadyAdded, len(ams_df))
+    return 1, (Already, Added, Error)
 
 def delete_asset(session:Session, perimeter:Perimeter, name:str, mode:Mode, nolog:bool) -> tuple[int, Union[Asset, None]]:
     """

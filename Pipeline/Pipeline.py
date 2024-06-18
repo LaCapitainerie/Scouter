@@ -14,11 +14,11 @@ class Mode:
     EXECUTE = "Execute"
 
 class Run:
-    REMOVED = "red"
-    ADDED = "green"
-    WARNING = "yellow"
-    INFO = "blue"
-    STAY = "gray"
+    REMOVED = "- [\033[31mx\033[0m]"
+    ADDED = "- [\033[32m+\033[0m]"
+    WARNING = "- [\033[33m!\033[0m]"
+    INFO = "- [\033[34m-\033[0m]"
+    STAY = "- [\033[37m=\033[0m]"
 
 
 class Pipeline(list[Callable]):
@@ -92,8 +92,23 @@ class Pipeline(list[Callable]):
 
                 if func_name.startswith("add_mass_"):
                     # self.kwargs.update({func_name[9:]: retour})
+                    if Rcode == 1:
+                        Already, Added, Error = retour
+                        lAdded = len(Added)
+                        f"\033[1m{lAdded}\033[0m assets added, \033[1m{Already}\033[0m already existed, \033[1m{Error}\033[0m errors"
+                        
+                        self.log.append({Run.INFO: "Mass assets :"})
+                        if lAdded > 0:self.log.append({"\t": f"{Run.ADDED} Added {lAdded} assets"})
+                        if Already > 0:self.log.append({"\t": f"{Run.STAY} {Already} already existed"})
+                        if Error > 0:self.log.append({"\t": f"{Run.WARNING} {Error} errors"})
 
-                    self.log.append({Run.ADDED: f"Added {retour[0]} over {retour[1]} {func_name[9:]} in {fromW} {Sup}"})
+                        if d := self.kwargs.get("data"):
+                            for asset in Added:
+                                for scope in d[self.kwargs.get("client")]["scopes"]:
+                                    if scope["name"] == Name:
+                                        print(scope)
+                                        scope["assets"].append(asset)
+                                        break
 
                 else:
                     self.kwargs.update({func_name[4:]: retour})
@@ -196,25 +211,12 @@ class Pipeline(list[Callable]):
         
     
     def log_output(self, mode:Mode):
-        def icon_from_log(str):
-            if str == Run.REMOVED:
-                return "- [\033[31mx\033[0m]"
-            elif str == Run.ADDED:
-                return "- [\033[32m+\033[0m]"
-            elif str == Run.WARNING:
-                return "- [\033[33m!\033[0m]"
-            elif str == Run.INFO:
-                return "- [\033[34m-\033[0m]"
-            elif str == Run.STAY:
-                return "- [\033[37m=\033[0m]"
-            else:
-                return "- []"
             
         print("\n\n")
                 
         for i in self.log:
             key, val = i.popitem()
-            print(f"{icon_from_log(key)} {val}")
+            print(f"{key} {val}")
 
         print("\n\n")
 

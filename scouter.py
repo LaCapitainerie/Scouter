@@ -1,4 +1,3 @@
-from cv2 import add
 import pandas as pd
 from Assets.Assets import add_asset, add_mass_assets, delete_asset, get_asset
 from Client.Clients import get_client
@@ -13,19 +12,24 @@ def main():
 
     Devices = pd.read_csv("devices 1.csv", sep=";")
 
-    Loop = Devices[Devices.Domain.isin(["cnpp.fr"])]["Device Name"].iloc[:5].values
+    Loop = Devices[Devices.Domain.isin(["cnpp.fr"])]["Device Name"].iloc[:10].values
 
     Pipeline(
         Mode.EXECUTE,
-        True,
+        False,
         Login,
         get_data,
 
         (get_client, {"name": "CNPP"}),
 
-        (add_perimeter, {"client": "CNPP", "name": "Test Perimetre"}),
+        (get_perimeter, {"name": "Test Perimetre"}),
+        (delete_perimeter, {"force": True}),
+        add_perimeter,
+
         (add_mass_assets, {"ams_df": Loop}),
 
+        #(delete_perimeter, {"force": True}),
+        
         file="const.json",
         #ams_df=Devices[Devices.Domain.isin(["cnpp.fr"])],
         #ams_df[ams_df.Domain.isin(["cnpp.fr"])].iterrows()
