@@ -18,8 +18,7 @@ def get_techno(asset: Asset, name:str) -> tuple[int, Union[Techno, None]]:
     Returns:
         tuple[int, Union[Techno, None]]: The response code and the techno object
     """
-
-    for techno in asset['technologies']:
+    for techno in asset.get("technologies", []):
         if techno["product"] == name:
             return 1, techno
 

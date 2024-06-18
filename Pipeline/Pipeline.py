@@ -1,7 +1,8 @@
 from collections import deque
-from typing import Any, Callable, Container, Literal, Union
+from typing import Any, Callable, Container, Union
 from requests import Session
 
+from Assets.Class import Asset
 from Global.Login import Login
 from Global.Sync import get_data
 
@@ -78,7 +79,8 @@ class Pipeline(list[Callable]):
 
             fromW = self.fromW(func_name.split("_", maxsplit=1)[1])
             tmp = self.kwargs.get(fromW)
-            Sup = f"'\033[1m{tmp if isinstance(tmp, str) else tmp['name'] if issubclass(type(tmp), dict) else ''}\033[0m'" # type: ignore
+            Name:str = tmp if isinstance(tmp, str) else tmp['name'] if issubclass(type(tmp), dict) else '' # type: ignore
+            Sup = f"'\033[1m{Name}\033[0m'"
             
             if func_name.startswith("get_"):
                 if not self.kwargs.get("nolog"):print(f"Got \033[1m{func_name[4:]}\033[0m")
@@ -98,6 +100,31 @@ class Pipeline(list[Callable]):
 
                     elif Rcode == 1:
                         self.log.append({Run.ADDED: f"Added {name} {func_name[4:]} in {fromW} {Sup}"})
+
+                        # Update Data for the next function
+
+                        if d := self.kwargs.get("data"):
+
+
+                            if func_name[4:] == "perimeter":
+                                d[Name]["scopes"].append(retour)
+
+                            elif func_name[4:] == "asset":
+                                for scope in d[self.kwargs.get("client")]["scopes"]:
+                                    if scope["name"] == Name:
+                                        scope["assets"].append(retour)
+
+                            elif func_name[4:] == "techno":
+                                perim = self.kwargs.get("perimeter") or {}
+                                for scope in d[self.kwargs.get("client")]["scopes"]:
+                                    if scope["name"] == perim.get("name"):
+                                        asset = self.kwargs.get("asset") or {}
+                                        for asset in scope["assets"]:
+                                            if asset["name"] == asset.get("name"):
+                                                asset["technologies"].append(retour)
+
+
+                            self.kwargs.update({"data": self.kwargs.get("data")})
 
                     else:
                         self.log.append({Run.REMOVED: f"Error when adding {name} {func_name[4:]} in {fromW} {Sup}"})

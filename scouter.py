@@ -12,12 +12,13 @@ def main():
     # Devices = pd.read_csv("devices 1.csv", sep=";")
 
     Pipeline(
-        Mode.EXECUTE,
+        Mode.PLAN,
         True,
         Login,
         get_data,
-        (add_perimeter, {"client": "CNPP", "name": "Test"}),
+        (add_perimeter, {"client": "CNPP", "name": "Test Perimetre"}),
         (add_asset, {"name": "test2", "description": "test"}),
+        add_asset,
         (add_techno, {"name": "Techno test", "description": "test", "vendor": "test", "version": "test"}),
         delete_techno,
 

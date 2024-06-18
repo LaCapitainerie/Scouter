@@ -52,7 +52,7 @@ def add_asset(session:Session, perimeter: Perimeter, name: str, description: str
 
     if mode == Mode.PLAN:
         if not nolog:print(f"Asset \033[1m{name}\033[0m would have been added")
-        return 1, Asset({"name": name, "description": description})
+        return 1, Asset({"name": name, "description": description, "id": "NoId", "technologies": []})
     
     response = session.post(API+"asset", json=PAYLOAD)
 

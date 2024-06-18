@@ -32,7 +32,7 @@ def add_perimeter(session:Session, client:str, name:str, data:Data, mode:Mode, n
     
     if mode == Mode.PLAN:
         if not nolog:print(f"Perimeter \033[1m{name}\033[0m would have been added")
-        return 1, Perimeter({"name": name, "id": "NoId"})
+        return 1, Perimeter({"name": name, "id": "NoId", "assets": []})
     
     r = session.post(PERIMETER_API, json={
         "name": name,
@@ -86,6 +86,10 @@ def delete_perimeter(session:Session, client: str, name:str, data:Data, mode:Mod
     # Get the perimeter to see if exist
     if not (perimeter := get_perimeter(client, name, data, nolog)[1]):
         if not nolog:print(f"Perimeter \033[1m{name}\033[0m not found")
+        return 2, None
+    
+    if perimeter.assets:
+        if not nolog:print(f"Perimeter \033[1m{name}\033[0m still has assets")
         return 2, None
     
     if mode == Mode.PLAN:
