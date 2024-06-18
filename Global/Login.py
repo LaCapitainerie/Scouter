@@ -16,7 +16,7 @@ def Login(file:str="const.json", nolog:bool=False) -> Union[requests.Session, No
     """
 
 
-    with open(file, "r+") as f:
+    with open(file, "r") as f:
         d = json.load(f)
         Session = requests.Session()
 

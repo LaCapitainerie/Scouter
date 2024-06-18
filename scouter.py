@@ -12,27 +12,31 @@ def main():
 
     Devices = pd.read_csv("devices 1.csv", sep=";")
 
+    print(len(Devices[Devices.Domain.isin(["cnpp.fr"])]["Device Name"]))
+
     Loop = Devices[Devices.Domain.isin(["cnpp.fr"])]["Device Name"].iloc[:10].values
 
     Pipeline(
-        Mode.EXECUTE,
-        False,
+
+        Mode.PLAN,
+        True,
+
+        
         Login,
         get_data,
 
         (get_client, {"name": "CNPP"}),
 
-        (get_perimeter, {"name": "Test Perimetre"}),
-        (delete_perimeter, {"force": True}),
-        add_perimeter,
+        (add_perimeter, {"client": "CNPP", "name": "Device Param"}),
 
-        (add_mass_assets, {"ams_df": Loop}),
+        (add_mass_assets, {"column": Loop}),
 
-        #(delete_perimeter, {"force": True}),
-        
-        file="const.json",
-        #ams_df=Devices[Devices.Domain.isin(["cnpp.fr"])],
-        #ams_df[ams_df.Domain.isin(["cnpp.fr"])].iterrows()
+
+        file="const.json"
+
+
+
+
     ).run()
 
     """

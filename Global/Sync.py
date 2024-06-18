@@ -35,7 +35,7 @@ def get_data(session:requests.Session, file:str, force=True, nolog:bool=False) -
                 if r.status_code == 200:
                     if not nolog:print("Sync \033[1msuccessful\033[0m")
                     d["content"]["Voc"] = {i["name"]: i for i in r.json()}
-                    with open(file, 'w') as f:
+                    with open(file, 'w+') as f:
                         json.dump(d, f)
                 else:
                     if not nolog:print("Sync \033[1mfailed\033[0m")

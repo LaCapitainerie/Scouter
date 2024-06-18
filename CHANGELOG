@@ -19,7 +19,12 @@ All notable changes to this project will be documented in this file.
  ### Removed
 - [Feature] Description of the removed feature or enhancement. -->
 
-## [Version 1.0.0] - 2024-06-17
+## [Version 1.0.1] - 2024-06-18
+
+### Fixed
+- [Bug] When creating the json from empty file
+
+## [Version 1.0.0] - 2024-06-18
 
 ### Added
 - [Feature] Plan can now Add Resources Temporary to simulate Execution

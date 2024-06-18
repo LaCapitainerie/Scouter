@@ -67,7 +67,7 @@ def add_asset(session:Session, perimeter: Perimeter, name: str, description: str
         return 2, None
 
 
-def add_mass_assets(session:Session, perimeter:Perimeter, ams_df:Sequence[Any], mode:Mode, nolog:bool) -> tuple[int, tuple[int, Iterable[Asset], int]]:
+def add_mass_assets(session:Session, perimeter:Perimeter, column:Sequence[Any], mode:Mode, nolog:bool) -> tuple[int, tuple[int, Iterable[Asset], int]]:
     """
     Add multiple assets to the Scouter platform
 
@@ -84,7 +84,7 @@ def add_mass_assets(session:Session, perimeter:Perimeter, ams_df:Sequence[Any], 
     Added = deque()
     Error = 0
 
-    for row in ams_df:
+    for row in column:
         Rcode, asset = add_asset(session, perimeter, row, ".", nolog=True, mode=mode)
         if Rcode == 0:
             Already += 1
