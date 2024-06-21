@@ -13,11 +13,13 @@ All notable changes to this project will be documented in this file.
 - [Feature] Add Unit Tests
 - [Feature] Add Documentation on every part
 
-### Fixed
-- [Bug] Update Localy the json to match when PLAN
-
  ### Removed
 - [Feature] Description of the removed feature or enhancement. -->
+
+## [Version 1.1.0] - 2024-06-24
+
+### Added
+- [Feature] Added Unit test to ensure pushing a good version
 
 ## [Version 1.0.1] - 2024-06-18
 
