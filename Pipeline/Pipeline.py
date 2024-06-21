@@ -67,8 +67,6 @@ class Pipeline(list[Callable]):
             else:
                 raise TypeError("The function must be a Callable or a tuple")
 
-                
-
             if not self.kwargs.get("nolog"):print(f"Running \033[1m{function.__name__}\033[0m")
             
             # self.log.append({Run.INFO: f"Running {function.__name__}"})
@@ -198,7 +196,7 @@ class Pipeline(list[Callable]):
 
         self.log_output(self.kwargs.get("mode")) # type: ignore
 
-        return None
+        return [*map(lambda x: next(iter(dict.keys(x))), self.log)]
     
     def fromW(self, string:str):
         if string == "techno":
@@ -215,7 +213,7 @@ class Pipeline(list[Callable]):
         print("\n\n")
                 
         for i in self.log:
-            key, val = i.popitem()
+            key, val = i.items().__iter__().__next__()
             print(f"{key} {val}")
 
         print("\n\n")

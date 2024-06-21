@@ -1,3 +1,22 @@
+'''
+//////////////////////////////////////
+||||||||||||||||||||||||||||||||||||||
+
+   ******   ****     **  *******   ******* 
+  **////** /**/**   /** /**////** /**////**
+ **    //  /**//**  /** /**   /** /**   /**
+/**        /** //** /** /*******  /******* 
+/**        /**  //**/** /**////   /**////  
+//**    ** /**   //**** /**       /**      
+ //******  /**    //*** /**       /**      
+  //////   //      ///  //        //   
+  
+||||||||||||||||||||||||||||||||||||||
+//////////////////////////////////////
+'''
+
+
+
 import pandas as pd
 from Assets.Assets import add_asset, add_mass_assets, delete_asset, get_asset
 from Client.Clients import get_client
@@ -6,6 +25,7 @@ from Global.Login import Login
 from Perimeters.Perimeters import add_perimeter, delete_perimeter, get_perimeter
 from Pipeline.Pipeline import Mode, Pipeline
 from Global.Sync import get_data
+
 
 
 def main():
