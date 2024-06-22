@@ -1,0 +1,4 @@
+# FILEPATH: /Users/hantreassian/Desktop/Scouter/requirements.txt
+
+# Add your requirements below
+requests
