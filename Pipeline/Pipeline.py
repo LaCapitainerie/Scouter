@@ -104,7 +104,6 @@ class Pipeline(list[Callable]):
                             for asset in Added:
                                 for scope in d[self.kwargs.get("client")]["scopes"]:
                                     if scope["name"] == Name:
-                                        print(scope)
                                         scope["assets"].append(asset)
                                         break
 

@@ -1,0 +1,31 @@
+name: Push Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Run Unit Tests
+        run: python UnitsTest.py
+
+      - name: Check return value
+        run: |
+          if [ $? -eq 0 ]; then
+            echo "Unit tests passed. Allowing push."
+          else
+            echo "Unit tests failed. Blocking push."
+            exit 1
+          fi

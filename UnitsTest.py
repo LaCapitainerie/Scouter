@@ -6,7 +6,7 @@ from Perimeters.Perimeters import add_perimeter, delete_perimeter
 from Pipeline.Pipeline import Mode, Pipeline, Run
 from Technos.Technos import add_techno, delete_techno
 
-def main():
+def UnitsTest():
     Return = Pipeline(
         Mode.PLAN,
         True,
@@ -61,13 +61,9 @@ def main():
         Run.WARNING
     ]
 
-    for i in range(len(Return)):
-        if Return[i] != Attendu[i]:
-            print(f"Attendu: {Attendu[i]}, Reçu: {Return[i]}")
-
-    return Return == Attendu
+    return int(Return != Attendu)
 
 
 if __name__ == "__main__":
-    main()
+    UnitsTest()
 
