@@ -11,7 +11,6 @@ def UnitsTest():
         Mode.PLAN,
         True,
 
-        Login,
         get_data,
 
         (get_client, {"name": "CNPP"}),
