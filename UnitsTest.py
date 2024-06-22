@@ -7,10 +7,12 @@ from Pipeline.Pipeline import Mode, Pipeline, Run
 from Technos.Technos import add_techno, delete_techno
 
 def UnitsTest():
+
     Return = Pipeline(
         Mode.PLAN,
-        True,
+        False,
 
+        Login,
         get_data,
 
         (get_client, {"name": "CNPP"}),
@@ -60,9 +62,8 @@ def UnitsTest():
         Run.WARNING
     ]
 
-    return int(Return != Attendu)
+    return (Return != Attendu)
 
 
-if __name__ == "__main__":
-    UnitsTest()
+UnitsTest()
 

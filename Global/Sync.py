@@ -9,7 +9,7 @@ from Global.Class import Data
 
 
 
-def get_data(session:requests.Session, file:str, force=True, nolog:bool=False) -> tuple[int, Union[Data, None]]:
+def get_data(session:requests.Session, file:str, mode:str, force:bool=False, nolog:bool=False) -> tuple[int, Union[Data, None]]:
     """
     Sync the data from the Scouter platform
     
@@ -26,7 +26,7 @@ def get_data(session:requests.Session, file:str, force=True, nolog:bool=False) -
         with open(file, "r") as f:
             d = json.load(f)
 
-            if force or d["content"]["lastSync"] < time.time() - 3600:
+            if force or (d["content"]["lastSync"] < time.time() - 3600 and mode != "Plan"):
                 if not nolog:print("Syncing...")
                 d["content"]["lastSync"] = time.time()
 

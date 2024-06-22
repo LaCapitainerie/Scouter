@@ -1,6 +1,7 @@
 from collections import deque
 import enum
 from typing import Any, Callable, Container, Union
+from urllib import request
 from requests import Session
 
 from Assets.Class import Asset
@@ -41,14 +42,20 @@ class Pipeline(list[Callable]):
         if get_data not in self.pipe:
             self.log.append({Run.WARNING: "Warning: Sync function not found in the pipeline"})
 
-        if self.pipe[0].__annotations__.get("return", None) != Union[Session, None]:
-            raise TypeError("The first function must return a Session object")
+        if self.kwargs.get("mode") == "Plan":
+            self.session = Session()
 
-        if isinstance(self.pipe[0], Callable) and self.pipe[0] == Login:
-            self.session = self.pipe[0](nolog=self.kwargs.get("nolog"))
+        else:
+            if self.pipe[0].__annotations__.get("return", None) != Union[Session, None]:
+                raise TypeError("The first function must return a Session object")
+
+            if isinstance(self.pipe[0], Callable) and self.pipe[0] == Login:
+                self.session = self.pipe[0](nolog=self.kwargs.get("nolog"))
         
-        if not self.session:
-            return None
+            if not self.session:
+                return None
+            
+
 
         for function in self.pipe[1:]:
             self.kwargs.update({"session": self.session})
@@ -84,6 +91,8 @@ class Pipeline(list[Callable]):
             if func_name.startswith("get_"):
                 if not self.kwargs.get("nolog"):print(f"Got \033[1m{func_name[4:]}\033[0m")
                 self.kwargs.update({func_name[4:]: retour})
+
+                print(func_name[4:], retour, Rcode)
 
             
             if func_name.startswith("add_"):
