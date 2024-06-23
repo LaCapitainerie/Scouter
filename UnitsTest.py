@@ -10,7 +10,7 @@ def UnitsTest():
 
     Return = Pipeline(
         Mode.PLAN,
-        False,
+        True,
 
         Login,
         get_data,
@@ -41,7 +41,7 @@ def UnitsTest():
     ).run()
 
     if not Return:
-        return False
+        return 1
 
     Attendu = [
         Run.INFO,
@@ -62,7 +62,7 @@ def UnitsTest():
         Run.WARNING
     ]
 
-    return (Return != Attendu)
+    return int(Return != Attendu)
 
 
 UnitsTest()
