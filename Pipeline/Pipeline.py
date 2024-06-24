@@ -91,9 +91,6 @@ class Pipeline(list[Callable]):
             if func_name.startswith("get_"):
                 if not self.kwargs.get("nolog"):print(f"Got \033[1m{func_name[4:]}\033[0m")
                 self.kwargs.update({func_name[4:]: retour})
-
-                print(func_name[4:], retour, Rcode)
-
             
             if func_name.startswith("add_"):
 
