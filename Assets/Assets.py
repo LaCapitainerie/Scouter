@@ -66,7 +66,6 @@ def add_asset(session:Session, perimeter: Perimeter, name: str, description: str
         if not nolog:print("Asset addition \033[1mfailed\033[0m")
         return 2, None
 
-
 def add_mass_assets(session:Session, perimeter:Perimeter, column:Sequence[Any], mode:Mode, nolog:bool) -> tuple[int, tuple[int, Iterable[Asset], int]]:
     """
     Add multiple assets to the Scouter platform
