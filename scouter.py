@@ -17,12 +17,11 @@
 
 
 
-import pandas as pd
-from Assets.Assets import add_asset, add_mass_assets, delete_asset, get_asset
-from Client.Clients import get_client
-from Technos.Technos import add_techno, delete_techno
+from Assets.Assets import *
+from Client.Clients import *
+from Technos.Technos import *
 from Global.Login import Login
-from Perimeters.Perimeters import add_perimeter, delete_perimeter, get_perimeter
+from Perimeters.Perimeters import *
 from Pipeline.Pipeline import Mode, Pipeline
 from Global.Sync import get_data
 
@@ -30,9 +29,9 @@ from Global.Sync import get_data
 
 def main():
 
-    Devices = pd.read_csv("devices 1.csv", sep=";")
-
-    print(len(Devices[Devices.Domain.isin(["cnpp.fr"])]["Device Name"]))
+    from pandas import read_csv
+    Devices = read_csv("devices 1.csv", sep=";")
+    del read_csv
 
     Loop = Devices[Devices.Domain.isin(["cnpp.fr"])]["Device Name"].iloc[:10].values
 
@@ -40,7 +39,6 @@ def main():
 
         Mode.PLAN,
         True,
-
         
         Login,
         get_data,
@@ -53,9 +51,6 @@ def main():
 
 
         file="const.json"
-
-
-
 
     ).run()
 
