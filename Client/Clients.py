@@ -1,10 +1,9 @@
 from typing import Union
 
-from Client.Class import Client
-from Global.Class import Data
+from Global.Class import URL, Data
 
 
-CLIENT_API = "https://preprod.scouter.inn.hts-expert.com/api/client/service/voc"
+CLIENT_API = f"{URL}/api/client/service/voc"
 
 def get_client(name:str, data:Data) -> tuple[int, Union[str, None]]:
     """

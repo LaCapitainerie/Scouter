@@ -2,10 +2,11 @@ from typing import Union
 
 from requests import Session
 from Assets.Class import Asset
+from Global.Class import URL
 from Pipeline.Pipeline import Mode
 from Technos.Class import Techno
 
-TECHNOS_API = "https://preprod.scouter.inn.hts-expert.com/api/technology"
+TECHNOS_API = f"{URL}/api/technology"
 
 def get_techno(asset: Asset, name:str) -> tuple[int, Union[Techno, None]]:
     """

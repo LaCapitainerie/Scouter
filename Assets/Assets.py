@@ -3,10 +3,11 @@ from typing import Any, Iterable, Sequence, Union
 from requests import Session
 
 from Assets.Class import Asset
+from Global.Class import URL
 from Perimeters.Class import Perimeter
 from Pipeline.Pipeline import Mode
 
-API = "https://preprod.scouter.inn.hts-expert.com/api/"
+API = f"{URL}/api/"
 
 def get_asset(perimeter:Perimeter, name:str) -> tuple[int, Union[Asset, None]]:
     """

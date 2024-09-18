@@ -4,11 +4,11 @@ from typing import Union
 from requests import Session
 
 from Assets.Assets import delete_asset
-from Global.Class import Data
+from Global.Class import URL, Data
 from Perimeters.Class import Perimeter
 from Pipeline.Pipeline import Mode
 
-PERIMETER_API = "https://preprod.scouter.inn.hts-expert.com/api/scope"
+PERIMETER_API = f"{URL}/api/scope"
 
 def add_perimeter(session:Session, client:str, name:str, data:Data, mode:Mode, nolog:bool) -> tuple[int, Union[Perimeter, None]]:
     """

@@ -1,10 +1,12 @@
-import json
-import time
+from json import load, dump
+from time import time
 from typing import Union
-import requests
+from requests import Session as SessionType
+
+from Global.Class import URL
 
 
-def Login(file:str="const.json", nolog:bool=False) -> Union[requests.Session, None]:
+def Login(file:str="const.json", nolog:bool=False) -> Union[SessionType, None]:
     """
     Login to the Scouter platform
     
@@ -17,10 +19,10 @@ def Login(file:str="const.json", nolog:bool=False) -> Union[requests.Session, No
 
 
     with open(file, "r") as f:
-        d = json.load(f)
-        Session = requests.Session()
+        d = load(f)
+        Session = SessionType()
 
-        if d["account"]["lastSync"] < time.time() - 3600:
+        if d["account"]["lastSync"] < time() - 3600:
 
             if not nolog:print("Logging in...")
 
@@ -30,17 +32,17 @@ def Login(file:str="const.json", nolog:bool=False) -> Union[requests.Session, No
             }
 
             Session.get(
-                url="https://preprod.scouter.inn.hts-expert.com/api/user/current"
+                url=f"{URL}/api/user/current"
             )
 
             login = Session.post(
-                url="https://preprod.scouter.inn.hts-expert.com/api/login",
+                url=f"{URL}/api/login",
                 json=account,
             )
             if login.status_code == 200:
-                d["account"]["lastSync"] = time.time()
+                d["account"]["lastSync"] = time()
                 with open(file, 'w+') as f:
-                    json.dump(d, f)
+                    dump(d, f)
                 if not nolog:print("Login \033[1msuccessful\033[0m")
                 return Session
             
