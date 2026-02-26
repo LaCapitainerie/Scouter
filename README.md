@@ -50,10 +50,3 @@ Create your feature branch (git checkout -b feature/AmazingFeature)
 **Fill The Pull Request Card**
 
 <img width="356" alt="image" src="https://github.com/LaCapitainerie/Scouter/assets/66835496/ebed97f3-a9cb-49f4-985e-ff1730894815">
-
-**And Open a Pull Request**
-
-Contact
-LaCapitainerie - hugo.antreassian@gmail.com - CNPP
-
-Project Link: https://github.com/LaCapitainerie/Scouter.git
